@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   route() {
-    Navigator.of(context).popAndPushNamed(kLoginScreen);
+    Navigator.of(context).popAndPushNamed(KSignUpScreen);
   }
 
   @override

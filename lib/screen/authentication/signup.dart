@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   // const LoginScreen({ Key? key }) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontStyle: FontStyle.normal),
                     decoration: InputDecoration(
                       focusColor: Colors.black,
-                      hintText: "Email or Phone number",
+                      hintText: "Full Name",
                       hintStyle: TextStyle(
                         fontSize: 16,
                         color: Color(0xffC3BBBB),
@@ -61,6 +61,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     onSaved: (value) {
                       // _userEmail = value;
+                    },
+                  ),
+                  SizedBox(height: 30),
+                  TextFormField(
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal),
+                    decoration: InputDecoration(
+                      hintText: "Your Email",
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xffC3BBBB),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Required";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      // _userPassword = value;
                     },
                   ),
                   SizedBox(height: 30),
@@ -88,6 +113,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       // _userPassword = value;
                     },
                   ),
+                  SizedBox(height: 30),
+                  TextFormField(
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal),
+                    decoration: InputDecoration(
+                      hintText: "Repeat Password",
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xffC3BBBB),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Required";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      // _userPassword = value;
+                    },
+                  ),
                 ],
               ),
             )),
@@ -97,12 +147,12 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               child: RoundedRaisedButton(
                 // circleborderRadius: 10,
-                title: "Login",
+                title: "Sign up",
                 // isLoading: _isLoading,
                 titleColor: Colors.white,
                 buttonColor: Color(0xff8C191C),
                 onPress: () {
-                  Navigator.of(context).pushNamed(KDashboard);
+                  Navigator.of(context).pushNamed(kLoginScreen);
                   // _submitLogin();
                 },
               ),
@@ -110,12 +160,23 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  'Forget password?',
-                  textAlign: TextAlign.end,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Already have an account? ',
+                    textAlign: TextAlign.end,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(kLoginScreen);
+                    },
+                    child: Text(
+                      ' Login',
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 40)

@@ -1,3 +1,5 @@
+import 'package:archub/screen/authentication/signup.dart';
+import 'package:archub/screen/dashboard/dashboard.dart';
 import 'package:archub/splashscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       routes: {
         kLoginScreen: (ctx) => LoginScreen(),
-        // kDashbord: (ctx) => Dashboard(),
+        KSignUpScreen: (ctx) => SignUpScreen(),
+        KDashboard: (ctx) => Dashboard(),
         // kContactUs: (ctx) => ContactUsScreen(),
       },
     );

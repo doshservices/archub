@@ -9,3 +9,5 @@ const kBlackColor = Colors.black;
 //screens
 const kSplashscreen = "splashscreen";
 const kLoginScreen = "loginscreen";
+const KSignUpScreen = "SignUpScreen";
+const KDashboard = "dashboard";
