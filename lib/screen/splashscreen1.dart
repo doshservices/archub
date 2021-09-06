@@ -21,15 +21,18 @@ class _Splash2ScreenState extends State<Splash2Screen> {
   // }
 
   @override
-  void didChangeDependencies() {
-    getalldata();
+  void didChangeDependencies() async{
+    await Provider.of<UserPost>(context, listen: false).getAllUserPort();
+    await Provider.of<UserPost>(context, listen: false).getTag();
+    // getalldata();
     startTimer();
     super.didChangeDependencies();
   }
 
-  void getalldata() async {
-    await Provider.of<UserPost>(context, listen: false).getAllUserPort();
-  }
+  // void getalldata() async {
+  //   await Provider.of<UserPost>(context, listen: false).getAllUserPort();
+  //   await Provider.of<UserPost>(context, listen: false).getTag();
+  // }
 
   startTimer() async {
     var duration = Duration(seconds: 4);

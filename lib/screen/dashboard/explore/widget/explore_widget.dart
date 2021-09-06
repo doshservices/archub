@@ -26,25 +26,23 @@ class _ExploreWidgetState extends State<ExploreWidget> {
       ImageData(id: '9', image: 'assets/images/img9.png'),
       ImageData(id: '10', image: 'assets/images/img10.png'),
     ];
-    return Expanded(
-      child: StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
-        itemCount: imageList.length,
-        itemBuilder: (BuildContext context, int index) => GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(KPostDetail);
-          },
-          child: Image.asset(
-            imageList[index].image,
-            fit: BoxFit.fill,
-            width: double.infinity,
-          ),
+    return StaggeredGridView.countBuilder(
+      crossAxisCount: 4,
+      itemCount: imageList.length,
+      itemBuilder: (BuildContext context, int index) => GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(KPostDetail);
+        },
+        child: Image.asset(
+          imageList[index].image,
+          fit: BoxFit.fill,
+          width: double.infinity,
         ),
-        staggeredTileBuilder: (int index) =>
-            new StaggeredTile.count(2, index.isEven ? 2 : 1),
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 2,
       ),
+      staggeredTileBuilder: (int index) =>
+          new StaggeredTile.count(2, index.isEven ? 2 : 1),
+      mainAxisSpacing: 2,
+      crossAxisSpacing: 2,
     );
   }
 }

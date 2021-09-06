@@ -14,9 +14,18 @@ class ExploreScreen extends StatefulWidget {
   _ExploreScreenState createState() => _ExploreScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen> {
+class _ExploreScreenState extends State<ExploreScreen> with TickerProviderStateMixin{
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TabController _controller;
+  int currentSelection = 0;
+
+  @override
+  void initState() {
+   
+    _controller = new TabController(length: 5, vsync: this);
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +90,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           child: TextFormField(
                               decoration: InputDecoration(
                                   hintText: 'Search ',
+                                  contentPadding: EdgeInsets.all(10),
                                   hintStyle:
                                       TextStyle(color: Color(0xff28384F)),
                                   border: InputBorder.none)),
@@ -91,88 +101,137 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
             ),
-            DefaultTabController(
-                length: 5,
-                child: TabBar(
-
-                    // physics: ScrollPhysics(),
-                    controller: _controller,
-                    labelStyle: TextStyle(
-                      fontSize: 13,
-                      color: Colors.black,
-                      fontFamily: "DosisBold",
-                      fontWeight: FontWeight.w800,
-                    ),
-                    indicatorColor: Color(0xff28384F),
-                    unselectedLabelColor: Color(0xffC4C4C4),
-                    labelPadding: EdgeInsets.symmetric(horizontal: 20),
-                    isScrollable: false,
-                    tabs: [
-                      Tab(
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            Center(
-                              child: Text(
-                                'Architecture',
-                                style: TextStyle(
-                                    color: Color(0xff28384F), fontSize: 4),
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: DefaultTabController(
+                  length: 5,
+                  initialIndex: 0,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        constraints: BoxConstraints(maxHeight: 150.0),
+                        color: Colors.white,
+                        child: Material(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 1),
+                              child: TabBar(
+                                unselectedLabelColor: Color(0xffC4C4C4),
+                                labelColor: Colors.black,
+                                indicatorColor: Colors.black,
+                                isScrollable: true,
+                                controller: _controller,
+                                labelPadding: EdgeInsets.all(0),
+                                indicatorPadding: EdgeInsets.all(0),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                                tabs: [
+                                  Container(
+                                    // width: MediaQuery.of(context).size.width,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 0
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Architecture",
+                                      key: Key("architecture"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 1
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Interiror \nDesign",
+                                      key: Key("design"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 2
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Strucutural \nDesign",
+                                      key: Key("strucutural"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 3
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Product \ndesigner",
+                                      key: Key("Product"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 3
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Explore",
+                                      key: Key("Explore"),
+                                    ),
+                                  ),
+                                ],
+                                onTap: (index) async {
+                                  Future.delayed(Duration(milliseconds: 100),
+                                      () {
+                                    setState(() {
+                                      currentSelection = index;
+                                    });
+                                  });
+                                },
                               ),
                             ),
-                            // Expanded(child: Text(''))
-                          ],
+                          ),
                         ),
                       ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            // Expanded(child: Text('')),
-                            Text(
-                              'Interiror Design',
-                              style: TextStyle(
-                                  color: Color(0xff28384F), fontSize: 4),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            // Expanded(child: Text('')),
-                            Text(
-                              'Strucutural Design',
-                              style: TextStyle(
-                                  color: Color(0xff28384F), fontSize: 4),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            // Expanded(child: Text('')),
-                            Text(
-                              'Strucutural Design',
-                              style: TextStyle(
-                                  color: Color(0xff28384F), fontSize: 4),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            // Expanded(child: Text('')),
-                            Text(
-                              'Strucutural Design',
-                              style: TextStyle(
-                                  color: Color(0xff28384F), fontSize: 4),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ])),
-            ExploreWidget(),
+                    ],
+                  ),
+                )),
+            Expanded(
+                  child: TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: _controller,
+                    children: [
+                      ExploreWidget(),
+                      ExploreWidget(),
+                      ExploreWidget(),
+                      ExploreWidget(),
+                      ExploreWidget(),
+                    ],
+                  ),
+                ),
+            // ExploreWidget(), 
             // Container(
             //   height: double.infinity,
             //   child: TabBarView(

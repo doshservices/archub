@@ -289,158 +289,158 @@ class SocailMedia extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: Color(0xffC4C4C4),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/link1.png',
-                                              height: 20,
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Social Links',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff28384F),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                SizedBox(width: 5),
-                                                Text(
-                                                  'Facebook',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                Icon(
-                                                  Icons.arrow_drop_down,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
-                                            ))
-                                      ]),
-                                ),
-                                SizedBox(height: 10),
-                                Container(
-                                  height: 30,
-                                  child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color(0xff28384F))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            'Instagram',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff28384F),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color(0xff28384F))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            'Interior Design',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff28384F),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color(0xff28384F))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            'Linkedn',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff28384F),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color(0xff28384F))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            'Twitter',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xff28384F),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(horizontal: 10),
+                          //   decoration: BoxDecoration(
+                          //     color: Color(0xffC4C4C4),
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          //   child: Column(
+                          //     children: [
+                          //       Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.spaceBetween,
+                          //             children: [
+                          //               Row(
+                          //                 children: [
+                          //                   Image.asset(
+                          //                     'assets/images/link1.png',
+                          //                     height: 20,
+                          //                   ),
+                          //                   SizedBox(width: 10),
+                          //                   Text(
+                          //                     'Social Links',
+                          //                     style: TextStyle(
+                          //                       fontSize: 12,
+                          //                       color: Color(0xff28384F),
+                          //                       fontWeight: FontWeight.w600,
+                          //                     ),
+                          //                     textAlign: TextAlign.left,
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //               Container(
+                          //                   padding: EdgeInsets.symmetric(
+                          //                       horizontal: 10),
+                          //                   decoration: BoxDecoration(
+                          //                     color: Color(0xff28384F),
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(10),
+                          //                   ),
+                          //                   child: Row(
+                          //                     children: [
+                          //                       SizedBox(width: 5),
+                          //                       Text(
+                          //                         'Facebook',
+                          //                         style: TextStyle(
+                          //                           fontSize: 12,
+                          //                           color: Colors.white,
+                          //                           fontWeight: FontWeight.w600,
+                          //                         ),
+                          //                       ),
+                          //                       Icon(
+                          //                         Icons.arrow_drop_down,
+                          //                         color: Colors.white,
+                          //                       ),
+                          //                     ],
+                          //                   ))
+                          //             ]),
+                          //       ),
+                          //       SizedBox(height: 10),
+                          //       // Container(
+                          //       //   height: 30,
+                          //       //   child: ListView(
+                          //       //     scrollDirection: Axis.horizontal,
+                          //       //     children: [
+                          //       //       Container(
+                          //       //         decoration: BoxDecoration(
+                          //       //             borderRadius:
+                          //       //                 BorderRadius.circular(20),
+                          //       //             border: Border.all(
+                          //       //                 width: 1,
+                          //       //                 color: Color(0xff28384F))),
+                          //       //         child: Padding(
+                          //       //           padding: const EdgeInsets.all(5),
+                          //       //           child: Text(
+                          //       //             'Instagram',
+                          //       //             style: TextStyle(
+                          //       //               fontSize: 12,
+                          //       //               color: Color(0xff28384F),
+                          //       //               fontWeight: FontWeight.w600,
+                          //       //             ),
+                          //       //           ),
+                          //       //         ),
+                          //       //       ),
+                          //       //       SizedBox(width: 4),
+                          //       //       Container(
+                          //       //         decoration: BoxDecoration(
+                          //       //             borderRadius:
+                          //       //                 BorderRadius.circular(20),
+                          //       //             border: Border.all(
+                          //       //                 width: 1,
+                          //       //                 color: Color(0xff28384F))),
+                          //       //         child: Padding(
+                          //       //           padding: const EdgeInsets.all(5),
+                          //       //           child: Text(
+                          //       //             'Interior Design',
+                          //       //             style: TextStyle(
+                          //       //               fontSize: 12,
+                          //       //               color: Color(0xff28384F),
+                          //       //               fontWeight: FontWeight.w600,
+                          //       //             ),
+                          //       //           ),
+                          //       //         ),
+                          //       //       ),
+                          //       //       SizedBox(width: 4),
+                          //       //       Container(
+                          //       //         decoration: BoxDecoration(
+                          //       //             borderRadius:
+                          //       //                 BorderRadius.circular(20),
+                          //       //             border: Border.all(
+                          //       //                 width: 1,
+                          //       //                 color: Color(0xff28384F))),
+                          //       //         child: Padding(
+                          //       //           padding: const EdgeInsets.all(5),
+                          //       //           child: Text(
+                          //       //             'Linkedn',
+                          //       //             style: TextStyle(
+                          //       //               fontSize: 12,
+                          //       //               color: Color(0xff28384F),
+                          //       //               fontWeight: FontWeight.w600,
+                          //       //             ),
+                          //       //           ),
+                          //       //         ),
+                          //       //       ),
+                          //       //       SizedBox(width: 4),
+                          //       //       Container(
+                          //       //         decoration: BoxDecoration(
+                          //       //             borderRadius:
+                          //       //                 BorderRadius.circular(20),
+                          //       //             border: Border.all(
+                          //       //                 width: 1,
+                          //       //                 color: Color(0xff28384F))),
+                          //       //         child: Padding(
+                          //       //           padding: const EdgeInsets.all(5),
+                          //       //           child: Text(
+                          //       //             'Twitter',
+                          //       //             style: TextStyle(
+                          //       //               fontSize: 12,
+                          //       //               color: Color(0xff28384F),
+                          //       //               fontWeight: FontWeight.w600,
+                          //       //             ),
+                          //       //           ),
+                          //       //         ),
+                          //       //       ),
                                       
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
+                          //       //     ],
+                          //       //   ),
+                          //       // ),
+                          //       SizedBox(height: 10),
+                          //     ],
+                          //   ),
+                          // ),
                         ]),
                   ),
                 ),

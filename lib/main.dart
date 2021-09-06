@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'provider/auth.dart';
 import 'screen/authentication/login.dart';
+import 'screen/dashboard/Account/edit_profile.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
             KVerification: (ctx) => VerificationScreen(),
             KSplash2 : (ctx) => Splash2Screen(),
             KForgetpassScreen: (ctx) => ForgetpassScreen(),
+            KEditProfile: (ctx) => EditProfile()
           },
         );
       }),

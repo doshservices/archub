@@ -30,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider =
-        Provider.of<UserPost>(context, listen: false).postData;
+    
+    final categoryProvider = Provider.of<UserPost>(context, listen: false).postData;
     print(categoryProvider.length);
     postData = categoryProvider;
     return Scaffold(
@@ -106,36 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
           ),
-          Container(
-            height: 50,
-            width: double.infinity,
-            color: Color(0xff8C191C),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search),
-                      SizedBox(width: 5),
-                      Expanded(
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                                hintText: 'Search ',
-                                hintStyle: TextStyle(color: Color(0xff28384F)),
-                                border: InputBorder.none)),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
           Expanded(
               child: ListView.builder(
             shrinkWrap: true,
@@ -151,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 13),
                       child: Column(children: [
                         ListTile(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 6),
                           onTap: () {
                             Navigator.of(context).pushNamed(KInfoDetail);
                           },
@@ -162,23 +133,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: Text(
                             postData[index].title,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 16,
                               color: Colors.black,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          subtitle: Text(
-                            postData[index].description,
+                          subtitle: postData[index].description==null ? Container():Text(
+                            postData[index].description.toString(),
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 14,
                               color: Color(0xff28384F),
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ),
                         GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed(KPostDetail);
+                              Navigator.of(context).pushNamed(KPostDetail, arguments: postData[index].id);
                             },
                             child:
                                 postData[index].attachmentURI.contains('.mp4')
@@ -201,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: double.infinity,
                                         child: Image.network(
                                             postData[index].attachmentURI,
-                                            fit: BoxFit.fill))),
+                                            fit: BoxFit.cover))),
+                                            SizedBox(height: 5),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -248,7 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               )
-                            ])
+                            ]),
+                            SizedBox(height: 5),
                       ]),
                     ),
                   ),

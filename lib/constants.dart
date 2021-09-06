@@ -22,3 +22,4 @@ const KJobScreen = "jobScreen";
 const KVerification = 'verification';
 const KSplash2 = 'splash2';
 const KForgetpassScreen = 'forgetpassScreen';
+const KEditProfile = 'editProfile';

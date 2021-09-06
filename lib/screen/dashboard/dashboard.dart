@@ -1,7 +1,6 @@
 import 'package:archub/screen/dashboard/cloud/cloud.dart';
 import 'package:archub/screen/dashboard/explore/explore.dart';
 import 'package:archub/screen/dashboard/home/home.dart';
-import 'package:archub/screen/dashboard/job/job.dart';
 import 'package:archub/screen/dashboard/post/post.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -110,13 +109,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             BottomItem(
               page: _page,
               index: 2,
-              iconUrl: "assets/icons/pt.png",
-              text: 'My Post'
+              iconUrl: "assets/icons/post1.png",
+              text: 'Post'
             ),
             BottomItem(
               page: _page,
               index: 3,
-              iconUrl: "assets/icons/cloud.png",
+              iconUrl: "assets/icons/uplo.png",
               text: 'Upload'
             ),
           ],

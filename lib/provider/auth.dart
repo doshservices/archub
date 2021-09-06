@@ -55,11 +55,104 @@ class Auth with ChangeNotifier {
       print(resData);
       if (resData["message"] != "success") {
         if (resData["status"] == "error") {
-          throw HttpException(resData["message"]['message']);
+          throw HttpException(resData["message"]['message'][0]);
         } else {
           throw HttpException(resData["error"]);
         }
       }
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> editProfile(fullName, city, country, phoneNumber, location) async {
+    var data = jsonEncode({
+    "fullName": fullName,
+    "city":city,
+    "country":country,
+    "phoneNumber": phoneNumber,
+    "location":location
+   });
+   print(data);
+    print(data);
+    try {
+      final response = await http.put(
+        "${config.baseUrl}/users/update-profile",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: data,
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      if (resData["message"] != "success") {
+        if (resData["status"] == "error") {
+          throw HttpException(resData["message"]['message'][0]);
+        } else {
+          throw HttpException(resData["error"]);
+        }
+      }
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> getProfile() async {
+    
+    // print(data);
+    try {
+      final response = await http.get(
+        "${config.baseUrl}/users",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      if (resData["message"] != "success") {
+        if (resData["status"] == "error") {
+          throw HttpException(resData["message"]['message'][0]);
+        } else {
+          throw HttpException(resData["error"]);
+        }
+      }
+
+      if (resData["message"] == "success") {
+        // _token = resData["data"]["token"];
+        User userdata = User();
+        userdata.id = resData["data"]["user"]['_id'];
+        
+        userdata.fullName = resData["data"]["user"]['fullName'];
+        userdata.phone = resData["data"]["user"]['phoneNumber'];
+        userdata.email = resData["data"]["user"]['email'];
+        userdata.pictureUrl = resData["data"]["user"]['image'];
+
+        user = userdata;
+
+        // _autoLogout();
+
+      }
+      print("here is $token");
+
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': token,
+        'userId': user.id,
+        "userPhone": user.phone,
+        "userEmail": user.email,
+        "fullName": user.fullName,
+        // "pictureUrl": user.pictureUrl,
+      });
+      prefs.setString("userData", userData);
+
 
       notifyListeners();
     } catch (error) {
@@ -79,12 +172,11 @@ class Auth with ChangeNotifier {
         body: data,
       );
       var resData = jsonDecode(response.body);
-
+      print('//////get data');
       print(resData);
-      if (resData["status"] != 200) {
-       throw HttpException(resData["message"]);
-      }
-      if(resData["status"] == 200){
+      print(response.statusCode);
+      print(data);
+      if (resData["message"] != "success") {
         throw HttpException(resData["message"]);
       }
 

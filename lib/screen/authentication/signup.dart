@@ -42,73 +42,72 @@ class _SignUpScreenState extends State<SignUpScreen> {
         connectivityResult == ConnectivityResult.wifi) {
       print('I am connected to a mobile network');
       setState(() {
-      _isLoading = true;
-      // errMsg = "";
-    });
-    try {
-      await Provider.of<Auth>(context, listen: false).signUp(user, token);
-      setState(() {
-        _isLoading = false;
+        _isLoading = true;
+        // errMsg = "";
       });
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Text(
-                "Success",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: Text(
-                  "Your account has been successfully created. Kindly check your email to verify Account"),
-              actions: [
-                FlatButton(
-                  child: Text("Proceed to Login",
-                      style: TextStyle(color: Colors.white)),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacementNamed(kLoginScreen);
-                  },
+      try {
+        await Provider.of<Auth>(context, listen: false).signUp(user, token);
+        setState(() {
+          _isLoading = false;
+        });
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (ctx) {
+              return AlertDialog(
+                title: Text(
+                  "Success",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ],
-            );
-          });
-    } catch (error) {
-      showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Text(
-                "Error",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: Text("${error.toString()}"),
-              actions: [
-                FlatButton(
-                  child: Text("OK", style: TextStyle(color: Colors.white)),
-                  color: Color(0xff24414D),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                content: Text(
+                    "Your account has been successfully created. Kindly check your email to verify Account"),
+                actions: [
+                  FlatButton(
+                    child: Text("Proceed to Login",
+                        style: TextStyle(color: Colors.white)),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacementNamed(kLoginScreen);
+                    },
+                  ),
+                ],
+              );
+            });
+      } catch (error) {
+        showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                title: Text(
+                  "Error",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ],
-            );
-          });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }else{
+                content: Text("${error.toString()}"),
+                actions: [
+                  FlatButton(
+                    child: Text("OK", style: TextStyle(color: Colors.white)),
+                    color: Color(0xff24414D),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
       print('Not connected');
       _showShackBar('Please check your Internet connection!!!');
-        setState(() {
-          // errMsg = "Invalid credential";
-          _isLoading = false;
+      setState(() {
+        // errMsg = "Invalid credential";
+        _isLoading = false;
       });
     }
-    
   }
 
   _showShackBar(errorMessage) {
@@ -137,31 +136,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
         connectivityResult == ConnectivityResult.wifi) {
       print('I am connected to a mobile network');
       setState(() {
-      _isLoading = true;
-      // errMsg = "";
-    });
-    try {
-      await Provider.of<Auth>(context, listen: false).getOtp(user);
-      setState(() {
-        _isLoading = false;
+        _isLoading = true;
+        // errMsg = "";
+        // KVerification
       });
-      Navigator.of(context).pop();
-    } catch (error) {
-      _showShackBar(error.toString());
-    } finally {
+      try {
+        await Provider.of<Auth>(context, listen: false).getOtp(user);
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pushNamed(KVerification, arguments: user);
+      } catch (error) {
+        _showShackBar(error.toString());
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      print('Not connected');
+      _showShackBar('Please check your Internet connection!!!');
       setState(() {
+        // errMsg = "Invalid credential";
         _isLoading = false;
       });
     }
-  }else{
-    print('Not connected');
-      _showShackBar('Please check your Internet connection!!!');
-        setState(() {
-          // errMsg = "Invalid credential";
-          _isLoading = false;
-      });
-  }
-    
   }
 
   @override
@@ -177,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   width: double.infinity,
                   child: Image.asset(
                     'assets/images/log2.png',
@@ -205,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context).pop();
                         },
                         child: Text(
@@ -242,7 +241,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     data: ThemeData(primaryColor: Colors.black),
                     child: Column(children: <Widget>[
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05),
+                          height: MediaQuery.of(context).size.height * 0.08),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Form(
@@ -397,55 +396,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Form(
-                                key: _tokeFormKey,
-                                child: TextFormField(
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xffC3BBBB),
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return "Required";
-                                    }
-                                    return null;
-                                  },
-                                  onSaved: (value) {
-                                    token = value;
-                                  },
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  getToken(context);
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Text('Send a Token'),
-                                ))
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(height: 1, color: Colors.black),
-                      ),
                     ]),
                   ),
                 ),
@@ -461,7 +411,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 titleColor: Colors.white,
                 buttonColor: Color(0xff8C191C),
                 onPress: () {
-                  signup(context);
+                  getToken(context);
+                  // signup(context);
                 },
               ),
             ),

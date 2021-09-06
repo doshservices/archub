@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   width: double.infinity,
                   child: Image.asset(
                     'assets/images/log1.png',
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _loginFormKey,
                     child: Column(children: <Widget>[
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.08),
+                          height: MediaQuery.of(context).size.height * 0.1),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(

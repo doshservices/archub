@@ -45,12 +45,17 @@ class AppDrawer extends StatelessWidget {
                   SizedBox(height: 10),
                   ListTile(
                     onTap: () {
-                      Navigator.of(context).pushNamed(KInfoDetail);
+                      Navigator.of(context).pushNamed(KEditProfile);
                     },
-                    leading: Image.asset(
-                      'assets/images/p1.png',
-                      height: 70,
-                    ),
+                    leading: ClipOval(
+                                child: CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor: Colors.grey[100],
+                                    child: Icon(
+                                      Icons.person_outline,
+                                      size: 30,
+                                    )),
+                              ),
                     title: Text(
                       user.fullName,
                       style: TextStyle(color: Color(0xff28384F)),
@@ -96,20 +101,17 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ListTile(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(KSocailMedia);
-                    },
-                    leading: Image.asset(
-                      'assets/icons/link.png',
-                      height: 70,
-                    ),
-                    title: Text(
-                      "Social links",
-                      style: TextStyle(color: Color(0xff28384F)),
-                    ),
-                  ),
-                  SizedBox(height: 20),
+                  // ListTile(
+                  //   onTap: () {
+                  //     Navigator.of(context).pushNamed(KSocailMedia);
+                  //   },
+                  //   leading: SizedBox(width:50),
+                  //   title: Text(
+                  //     "Social links",
+                  //     style: TextStyle(color: Color(0xff28384F)),
+                  //   ),
+                  // ),
+                  // SizedBox(height: 20),
                   ListTile(
                     onTap: () {
                       Navigator.of(context).pushNamed(KJobScreen);

@@ -1,6 +1,6 @@
 class User {
-  int  phone;
-  String id, fullName, email, password, pictureUrl;
+  // int  phone;
+  String id, fullName, email, password, pictureUrl,phone;
   // int ;
   User({
     this.id,

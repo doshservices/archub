@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:archub/utils/share/app_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +14,11 @@ class JobScreen extends StatefulWidget {
 
 class _JobScreenState extends State<JobScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  
+  
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -124,7 +129,7 @@ class _JobScreenState extends State<JobScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context).pushNamed(KJobWidget);
                         },
                         child: Row(

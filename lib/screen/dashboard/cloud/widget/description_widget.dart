@@ -27,16 +27,7 @@ class DescriptionWidget extends StatelessWidget {
             ]),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-          child: Container(
-            width: double.infinity,
-            child: RoundedRaisedButton(
-              title: 'Next',
-              buttonColor: Color(0xff8C191C),
-            ),
-          ),
-        )
+        
       ]),
     );
   }
