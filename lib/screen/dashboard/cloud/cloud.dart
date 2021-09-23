@@ -212,7 +212,7 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
                           children: [
                             Expanded(child: Text('')),
                             Text(
-                              'Apply',
+                              'Jobs',
                               style: TextStyle(
                                   color: Color(0xff28384F), fontSize: 13),
                             ),
@@ -225,7 +225,7 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
               color: Color(0xffE5E5E5),
               child: TabBarView(
                 controller: _controller,
-                children: [EmployerWidget(), ApplyWidget()],
+                children: [EmployerWidget(scaffoldkey: _scaffoldKey), ApplyWidget()],
               ),
             )),
           ],

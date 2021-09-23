@@ -1,5 +1,6 @@
 import 'package:archub/provider/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -12,7 +13,6 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Auth>(context).user;
-    final auth = Provider.of<Auth>(context, listen: true);
     return Container(
       color: Color(0xffF2F2F6),
       child: Column(
@@ -45,16 +45,41 @@ class AppDrawer extends StatelessWidget {
                   SizedBox(height: 10),
                   ListTile(
                     onTap: () {
-                      Navigator.of(context).pushNamed(KEditProfile);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(KProfileScreen);
                     },
-                    leading: ClipOval(
-                                child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.grey[100],
-                                    child: Icon(
-                                      Icons.person_outline,
-                                      size: 30,
-                                    )),
+                    leading: user.pictureUrl == null
+                        ? ClipOval(
+                            child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor: Colors.grey[100],
+                                child: Icon(
+                                  Icons.person_outline,
+                                  size: 30,
+                                )),
+                          )
+                        : user.pictureUrl.toString().contains('/avatar.svg')
+                            ? CircleAvatar(
+                                backgroundColor: Colors.grey.withOpacity(0.2),
+                                radius: 40,
+                                child: SvgPicture.network(
+                                    user.pictureUrl
+                                        .toString()
+                                        .split("'")
+                                        .join(""),
+                                    fit: BoxFit.contain,
+                                    height: 30,
+                                    placeholderBuilder:
+                                        (BuildContext context) => Container(
+                                            padding: const EdgeInsets.all(2),
+                                            child:
+                                                const CircularProgressIndicator())),
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.grey.withOpacity(0.2),
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                    "${user.pictureUrl != null ? user.pictureUrl : ''}"),
                               ),
                     title: Text(
                       user.fullName,
@@ -75,6 +100,7 @@ class AppDrawer extends StatelessWidget {
                   SizedBox(height: 20),
                   ListTile(
                     onTap: () {
+                      Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(KNotificationScreeen);
                     },
                     leading: Image.asset(
@@ -89,6 +115,7 @@ class AppDrawer extends StatelessWidget {
                   SizedBox(height: 20),
                   ListTile(
                     onTap: () {
+                      Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(KAccountSetting);
                     },
                     leading: Image.asset(
@@ -97,31 +124,6 @@ class AppDrawer extends StatelessWidget {
                     ),
                     title: Text(
                       "Account settings",
-                      style: TextStyle(color: Color(0xff28384F)),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  // ListTile(
-                  //   onTap: () {
-                  //     Navigator.of(context).pushNamed(KSocailMedia);
-                  //   },
-                  //   leading: SizedBox(width:50),
-                  //   title: Text(
-                  //     "Social links",
-                  //     style: TextStyle(color: Color(0xff28384F)),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 20),
-                  ListTile(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(KJobScreen);
-                    },
-                    leading: Image.asset(
-                      'assets/icons/jb.png',
-                      height: 70,
-                    ),
-                    title: Text(
-                      "Job",
                       style: TextStyle(color: Color(0xff28384F)),
                     ),
                   ),
@@ -137,21 +139,6 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ListTile(
-                    onTap: () {
-                      auth.logout();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          kLoginScreen, (route) => false);
-                    },
-                    leading: Image.asset(
-                      'assets/icons/about.png',
-                      height: 70,
-                    ),
-                    title: Text(
-                      "Log out",
-                      style: TextStyle(color: Color(0xff28384F)),
-                    ),
-                  ),
                 ],
               ),
             ),

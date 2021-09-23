@@ -5,6 +5,6 @@ class ImageData{
   final String image;
 
   const ImageData({
-    @required this.id, 
-    @required this.image,});
+    this.id, 
+   this.image,});
 }

@@ -1,11 +1,17 @@
+import 'package:archub/model/job_model.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../constants.dart';
 
 class JobWidget extends StatelessWidget {
   const JobWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final jobDate = ModalRoute.of(context).settings.arguments as JobModel;
+   final DateFormat formatter = DateFormat.yMMMMd();
     return Scaffold(
       backgroundColor: Color(0xffE5E5E5),
       appBar: AppBar(
@@ -34,13 +40,13 @@ class JobWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Center(child: Text('Nanite')),
+          Center(child: Text(jobDate.companyName)),
           SizedBox(
             height: 20,
           ),
           Center(
-              child: Image.asset(
-            'assets/images/job2.png',
+              child: Image.network(
+            jobDate.logo,
             height: 100,
             width: 100,
           )),
@@ -48,13 +54,13 @@ class JobWidget extends StatelessWidget {
               child: SizedBox(
             height: 20,
           )),
-          Center(child: Text('Analog Developer')),
+          Center(child: Text(jobDate.jobTitle)),
           SizedBox(
             height: 10,
           ),
           Center(
               child: Text(
-            'Lagos, Nigeria',
+            jobDate.city + ", " + jobDate.country,
             style: TextStyle(color: Color(0xff28384F), fontSize: 12),
           )),
           SizedBox(
@@ -65,28 +71,28 @@ class JobWidget extends StatelessWidget {
             height: 10,
             color: Colors.white,
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: 'Job title: ',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black)),
-              TextSpan(
-                  text:
-                      'Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d.',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff28384F))),
-            ])),
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+          //   child: RichText(
+          //       text: TextSpan(children: [
+          //     TextSpan(
+          //         text: 'Job title: ',
+          //         style: TextStyle(
+          //             fontSize: 14,
+          //             fontWeight: FontWeight.w600,
+          //             color: Colors.black)),
+          //     TextSpan(
+          //         text:
+          //             'Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d.',
+          //         style: TextStyle(
+          //             fontSize: 14,
+          //             fontWeight: FontWeight.w400,
+          //             color: Color(0xff28384F))),
+          //   ])),
+          // ),
           SizedBox(
             height: 20,
           ),
@@ -101,9 +107,8 @@ class JobWidget extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       color: Colors.black)),
               TextSpan(
-                  text:
-                      'Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit aliqua d Amet minim mollit non deserunt ullamco est sit ',
-                  style: TextStyle(
+                  text:jobDate.jobDescription,
+                      style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Color(0xff28384F))),
@@ -138,7 +143,7 @@ class JobWidget extends StatelessWidget {
                       )),
                 ),
                 Expanded(
-                  child: Text('Fri  Nov 27 2020',
+                  child: Text(formatter.format(DateTime.parse(jobDate.createdAt)),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -164,7 +169,7 @@ class JobWidget extends StatelessWidget {
                       )),
                 ),
                 Expanded(
-                  child: Text('Internship',
+                  child: Text(jobDate.jobDescription,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -190,7 +195,7 @@ class JobWidget extends StatelessWidget {
                       )),
                 ),
                 Expanded(
-                  child: Text('Lagos',
+                  child: Text(jobDate.city,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -208,8 +213,11 @@ class JobWidget extends StatelessWidget {
           child: Container(
             width: double.infinity,
             child: RoundedRaisedButton(
-              title: 'Apply',
+              title: 'Next',
               buttonColor: Color(0xff8C191C),
+              onPress: (){
+                Navigator.of(context).pushNamed(KJobApplication, arguments: jobDate.id);
+              },
             ),
           ),
         )

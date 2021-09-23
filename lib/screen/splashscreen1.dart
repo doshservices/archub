@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:archub/constants.dart';
+import 'package:archub/provider/auth.dart';
 import 'package:archub/provider/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class _Splash2ScreenState extends State<Splash2Screen> {
   void didChangeDependencies() async{
     await Provider.of<UserPost>(context, listen: false).getAllUserPort();
     await Provider.of<UserPost>(context, listen: false).getTag();
+    await Provider.of<Auth>(context, listen: false).getProfile();
     // getalldata();
     startTimer();
     super.didChangeDependencies();

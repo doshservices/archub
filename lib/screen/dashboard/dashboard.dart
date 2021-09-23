@@ -147,7 +147,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 class BottomItem extends StatelessWidget {
   BottomItem({
     Key key,
-    @required int page,
+    int page,
     this.index,
     this.iconUrl,
     this.text

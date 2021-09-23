@@ -1,28 +1,20 @@
-import 'package:archub/model/post_data.dart';
-import 'package:archub/model/user.dart';
 import 'package:archub/provider/auth.dart';
-import 'package:archub/provider/user_post.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import 'follow_card.dart';
+import '../../../constants.dart';
 
-class InfoDetail extends StatefulWidget {
-  const InfoDetail({Key key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key key}) : super(key: key);
 
   @override
-  _InfoDetailState createState() => _InfoDetailState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _InfoDetailState extends State<InfoDetail> {
+class _ProfileScreenState extends State<ProfileScreen> {
   bool hidden;
-  List<PostData> sourceData = [];
-  List<PostData> sourceIdData = [];
-  User userdata = User();
-  bool isloading = false;
 
   @override
   void initState() {
@@ -30,42 +22,32 @@ class _InfoDetailState extends State<InfoDetail> {
     super.initState();
   }
 
-  bool _isInit = true;
+  // bool _isInit = true;
 
-  @override
-  void didChangeDependencies() async {
-    print("******************");
+  // @override
+  // void didChangeDependencies() async {
+  //   print("******************");
 
-    if (_isInit) {
-      final data = ModalRoute.of(context).settings.arguments as Map;
-      try {
-        await Provider.of<UserPost>(context, listen: false)
-            .getPostBySourceId(data['_id']);
-        await Provider.of<Auth>(context, listen: false)
-            .getUserSourceId(data['_id']);
-      } catch (error) {}
+  //   if (_isInit) {
+  //     final data = ModalRoute.of(context).settings.arguments as Map;
+  //     try {
+  //       await Provider.of<UserPost>(context, listen: false)
+  //           .getPostBySourceId(data['_id']);
+  //       await Provider.of<UserPost>(context, listen: false)
+  //           .getCommentById(data);
+  //     } catch (error) {}
 
-      setState(() {
-        _isInit = false;
-      });
-    }
-    super.didChangeDependencies();
-  }
+  //     setState(() {
+  //       _isInit = false;
+  //     });
+  //   }
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    userdata = Provider.of<Auth>(context).sourceId;
-    // final user = Provider.of<Auth>(context).user;
-    final sourceData = Provider.of<UserPost>(context).sourceIdData;
+    final user = Provider.of<Auth>(context).user;
     final data = ModalRoute.of(context).settings.arguments as Map;
-    sourceIdData.clear();
-    print(sourceData.length);
-    sourceData.forEach((element) { 
-      if(element.postFiles.length>0){
-        sourceIdData.add(element);
-      }
-    });
-
     return Scaffold(
       backgroundColor: Color(0xffE5E5E5),
       appBar: AppBar(
@@ -97,13 +79,215 @@ class _InfoDetailState extends State<InfoDetail> {
           ))
         ],
       ),
-      body: _isInit
-          ? Center(child: CircularProgressIndicator())
-          : Column(children: [
+      body: Column(children: [
               SizedBox(
                 height: 20,
               ),
-              FollowCard(data: data),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(height: 10),
+                                user.pictureUrl.contains('/avatar.svg')
+                                    ? CircleAvatar(
+                                        backgroundColor:
+                                            Colors.grey.withOpacity(0.2),
+                                        radius: 30,
+                                        child: SvgPicture.network(
+                                          user.pictureUrl
+                                              .toString()
+                                              .split("'")
+                                              .join(""),
+                                          fit: BoxFit.contain,
+                                          height: 30,
+                                          placeholderBuilder: (BuildContext
+                                                  context) =>
+                                              Container(
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  child:
+                                                      const CircularProgressIndicator()),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: NetworkImage(
+                                          user.pictureUrl,
+                                        ),
+                                      ),
+
+                                // SizedBox(height: 10),
+                                // Image.asset(
+                                //   'assets/images/p1.png',
+                                //   height: 80,
+                                // ),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // SizedBox(height: 3),
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Text(
+                                        'Following',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        user.following.length.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff28384F),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      // SizedBox(height: 20),
+                                    ],
+                                  ),
+
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Text(
+                                        'Folllowers',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        user.followers.length.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff28384F),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      // SizedBox(height: 20),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Text(
+                                        'Projects',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        '0',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xff28384F),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      // SizedBox(height: 20),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ]),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.fullName,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  user.skills.length != 0 ? user.skills[0].toString() : "",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1, color: Color(0xff28384F)),
+                                borderRadius: BorderRadius.circular(30)),
+                            child: RoundedRaisedButton(
+                              title: 'Edit profile',
+                              titleColor: Color(0xff28384F),
+                              buttonColor: Colors.white,
+                              onPress: (){
+                                Navigator.of(context).pushNamed(KEditProfile);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Container(
+                      //       height: 50,
+                      //       width: 150,
+                      //       child: RoundedRaisedButton(
+                      //         title: 'Follow',
+                      //         buttonColor: Color(0xff8C191C),
+                      //       ),
+                      //     ),
+                      //     Container(
+                      //       height: 50,
+                      //       width: 150,
+                      //       child: RoundedRaisedButton(
+                      //         title: 'Message',
+                      //         buttonColor: Color(0xff28384F),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                )),
+              ),
               SizedBox(height: 20),
               Expanded(
                 child: Container(
@@ -144,17 +328,18 @@ class _InfoDetailState extends State<InfoDetail> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                        //   child: Text(
-                        //     'Amet minim mollit non deserunt ullamco est sit aliqua dAmet minim mollit non deserunt ullamco est sit aliqua d',
-                        //     style: TextStyle(
-                        //       fontSize: 14,
-                        //       color: Color(0xff96969B),
-                        //       fontWeight: FontWeight.w400,
-                        //     ),
-                        //   ),
-                        // ),
+                        if(user.bio!=null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            user.bio,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff96969B),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 10),
                         Container(
                           height: 10,
@@ -637,41 +822,6 @@ class _InfoDetailState extends State<InfoDetail> {
                                   ),
                                 ),
                               ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Text(
-                            'Projects',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xff8C191C),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GridView.builder(
-                            padding: EdgeInsets.all(20),
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: sourceIdData.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                child: sourceIdData[index].postFiles.length>0 ? Image.network(
-                                  sourceIdData[index].postFiles[0],
-                                  fit: BoxFit.fill,
-                                ):Container(),
-                              );
-                            },
-                            gridDelegate:
-                                SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 185,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: 15,
-                              mainAxisSpacing: 15,
-                            ),
-                          ),
-                        ),
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(horizontal: 20),
                         //   child: Text(

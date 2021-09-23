@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:archub/model/tag.dart';
@@ -32,6 +31,9 @@ class _PostScreenState extends State<PostScreen> {
   String _location, tagvalue, title, _caption;
   String errMsg = "";
   bool _isLoading = false;
+  bool color1 = false;
+  bool color2 = false;
+  String type;
 
   File file;
   String status = '';
@@ -255,11 +257,12 @@ class _PostScreenState extends State<PostScreen> {
     }
     if (tagvalue == null) {
       _showShackBar('Please click on image to select picture');
-    }
-    if (!_locationFormKey.currentState.validate()) {
       return;
     }
-    _locationFormKey.currentState.save();
+    if (type == null) {
+      _showShackBar('Please select post type');
+      return;
+    }
     _location2FormKey.currentState.save();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
@@ -268,9 +271,10 @@ class _PostScreenState extends State<PostScreen> {
       setState(() {
         _isLoading = true;
       });
+      print("description = " + _caption.toString());
       try {
         await Provider.of<UserPost>(context, listen: false)
-            .creatPost(base64Image, _location, tagvalue, _caption, title);
+            .creatPost(_image, _location, tagvalue, _caption, type);
         await Provider.of<UserPost>(context, listen: false).getAllUserPort();
         Navigator.of(context)
             .pushNamedAndRemoveUntil(KDashboard, (route) => false);
@@ -343,9 +347,9 @@ class _PostScreenState extends State<PostScreen> {
                     },
                     child: _isLoading == true
                         ? SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: CircularProgressIndicator())
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator())
                         : Text("Share",
                             style: TextStyle(
                                 fontSize: 16, color: Color(0xff8C191C))),
@@ -399,13 +403,52 @@ class _PostScreenState extends State<PostScreen> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 focusColor: Colors.black,
-                                hintText: "Add a caption...",
+                                hintText: "Add Title...",
                                 hintStyle: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xffC3BBBB),
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "required";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onSaved: (value) {
+                                _location = value;
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(height: 4, color: Color(0xffE5E5E5)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: TextFormField(
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusColor: Colors.black,
+                                hintText: "Add a description...",
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xffC3BBBB),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "required";
+                                } else {
+                                  return null;
+                                }
+                              },
                               onSaved: (value) {
                                 _caption = value;
                               },
@@ -415,10 +458,10 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                     ),
                     // Text('Add a caption...'),
-                  )
+                  ),
                 ],
               ),
-              SizedBox(height: 10),
+              // SizedBox(height: 10),
               Container(height: 4, color: Color(0xffE5E5E5)),
               Card(
                 elevation: 0.2,
@@ -437,6 +480,7 @@ class _PostScreenState extends State<PostScreen> {
                           setState(() {
                             _mydata = value;
                             tagvalue = value.id;
+                            print(value.id);
                           });
                         },
                         items:
@@ -457,82 +501,102 @@ class _PostScreenState extends State<PostScreen> {
                   ),
                 ),
               ),
-              // ListTile(
-              //   title: Text('Tag people'),
-              //   trailing: Icon(Icons.keyboard_arrow_right),
-              // ),
               Container(height: 4, color: Color(0xffE5E5E5)),
-              Form(
-                key: _locationFormKey,
-                child: Column(
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Text('Select Post Type'),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusColor: Colors.black,
-                          hintText: "Enter Title",
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xffC3BBBB),
-                            fontWeight: FontWeight.w400,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          color1 = true;
+                          color2 = false;
+                          type = "post";
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.black),
+                            borderRadius: BorderRadius.circular(30),
+                            color: color1 == true ? kAccentColor.withOpacity(0.3): Colors.white
                           ),
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "required";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onSaved: (value) {
-                          _location = value;
-                        },
-                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text('post'),
+                          )),
                     ),
-                    SizedBox(height: 10),
-                    Container(height: 4, color: Color(0xffE5E5E5)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusColor: Colors.black,
-                          hintText: "Enter Location",
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xffC3BBBB),
-                            fontWeight: FontWeight.w400,
+                    SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          color1 = false;
+                          color2 = true;
+                          type = "story";
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.black),
+                            borderRadius: BorderRadius.circular(30),
+                            color: color2 == true ? kAccentColor.withOpacity(0.3): Colors.white
                           ),
-                        ),
-                        // validator: (value) {
-                        //   if (value.isEmpty) {
-                        //     return "required";
-                        //   } else {
-                        //     return null;
-                        //   }
-                        // },
-                        onSaved: (value) {
-                          title = value;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(height: 4, color: Color(0xffE5E5E5)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text('story'),
+                          )),
+                    )
                   ],
                 ),
-              ),
+              )
+              // Form(
+              //   key: _locationFormKey,
+              //   child: Column(
+              //     children: [
+              //       // SizedBox(height: 10),
+              //       // Container(height: 4, color: Color(0xffE5E5E5)),
+              //       Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 20),
+              //         child: TextFormField(
+              //           style: TextStyle(
+              //               color: Colors.black,
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.w400,
+              //               fontStyle: FontStyle.normal),
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             focusColor: Colors.black,
+              //             hintText: "Enter Location",
+              //             hintStyle: TextStyle(
+              //               fontSize: 16,
+              //               color: Color(0xffC3BBBB),
+              //               fontWeight: FontWeight.w400,
+              //             ),
+              //           ),
+              //           // validator: (value) {
+              //           //   if (value.isEmpty) {
+              //           //     return "required";
+              //           //   } else {
+              //           //     return null;
+              //           //   }
+              //           // },
+              //           onSaved: (value) {
+              //             title = value;
+              //           },
+              //         ),
+              //       ),
+              //       SizedBox(height: 10),
+              //       Container(height: 4, color: Color(0xffE5E5E5)),
+              //     ],
+              //   ),
+              // ),
               // ListTile(
               //   title: Text('Choose'),
               //   // trailing: Icon(Icons.keyboard_arrow_right),

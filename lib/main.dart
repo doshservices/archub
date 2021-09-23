@@ -1,19 +1,26 @@
+import 'package:archub/provider/job_provider.dart';
 import 'package:archub/provider/user_post.dart';
 import 'package:archub/screen/authentication/forgetpass.dart';
 import 'package:archub/screen/authentication/signup.dart';
 import 'package:archub/screen/authentication/verifyToken.dart';
 import 'package:archub/screen/dashboard/Account/account_setting.dart';
+import 'package:archub/screen/dashboard/Account/profile.dart';
+import 'package:archub/screen/dashboard/Account/reset_password.dart';
 import 'package:archub/screen/dashboard/Notification/notification_screen.dart';
 import 'package:archub/screen/dashboard/SocialMedia/social_media.dart';
 import 'package:archub/screen/dashboard/dashboard.dart';
+import 'package:archub/screen/dashboard/home/report_post.dart';
 import 'package:archub/screen/dashboard/home/widget/info_detail.dart';
 import 'package:archub/screen/dashboard/home/widget/post_detail.dart';
 import 'package:archub/screen/dashboard/job/job.dart';
+import 'package:archub/screen/dashboard/job/job2.dart';
 import 'package:archub/screen/dashboard/job/widget/job_widget.dart';
+import 'package:archub/screen/dashboard/notification%20copy/notifications_screen.dart';
 import 'package:archub/screen/dashboard/post/post.dart';
 import 'package:archub/screen/splashscreen1.dart';
 import 'package:archub/splashscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'constants.dart';
@@ -40,9 +47,14 @@ class MyApp extends StatelessWidget {
             return UserPost();
           },
         ),
+        ChangeNotifierProvider(
+          create: (ctx) {
+            return JobProvider();
+          },
+        ),
       ],
       child: Consumer<Auth>(builder: (ctx, auth, _) {
-        return MaterialApp(
+        return GetMaterialApp(
           title: 'Archub',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
@@ -50,7 +62,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: auth.isAuth == true
-                    ? Splash2Screen()
+                    ? Dashboard()
                     : FutureBuilder(
                         future: auth.tryAutoLogin(),
                         builder: (ctx, authResultSnapShot) =>
@@ -73,7 +85,12 @@ class MyApp extends StatelessWidget {
             KVerification: (ctx) => VerificationScreen(),
             KSplash2 : (ctx) => Splash2Screen(),
             KForgetpassScreen: (ctx) => ForgetpassScreen(),
-            KEditProfile: (ctx) => EditProfile()
+            KEditProfile: (ctx) => EditProfile(),
+            KResetPasswordScreen: (ctx) => ResetPasswordScreen(),
+            KProfileScreen: (ctx) => ProfileScreen(),
+            KJobApplication: (ctx) => JobApplication(),
+            KNotificationsScreen: (ctx) => NotificationsScreen(),
+            KReportPort: (ctx) => ReportPort(),
           },
         );
       }),
