@@ -1,4 +1,4 @@
-package com.example.archub
+package com.archub.co
 
 import io.flutter.embedding.android.FlutterActivity
 

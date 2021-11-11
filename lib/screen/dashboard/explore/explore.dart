@@ -14,18 +14,19 @@ class ExploreScreen extends StatefulWidget {
   _ExploreScreenState createState() => _ExploreScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen> with TickerProviderStateMixin{
+class _ExploreScreenState extends State<ExploreScreen>
+    with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TabController _controller;
   int currentSelection = 0;
 
   @override
   void initState() {
-   
     _controller = new TabController(length: 5, vsync: this);
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,10 +52,15 @@ class _ExploreScreenState extends State<ExploreScreen> with TickerProviderStateM
           Center(
               child: Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.black,
-              size: 30,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(KNotificationsScreen);
+              },
+              child: Icon(
+                Icons.notifications,
+                color: Colors.black,
+                size: 30,
+              ),
             ),
           ))
         ],
@@ -219,19 +225,19 @@ class _ExploreScreenState extends State<ExploreScreen> with TickerProviderStateM
                   ),
                 )),
             Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _controller,
-                    children: [
-                      ExploreWidget(),
-                      ExploreWidget(),
-                      ExploreWidget(),
-                      ExploreWidget(),
-                      ExploreWidget(),
-                    ],
-                  ),
-                ),
-            // ExploreWidget(), 
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _controller,
+                children: [
+                  ExploreWidget(),
+                  ExploreWidget(),
+                  ExploreWidget(),
+                  ExploreWidget(),
+                  ExploreWidget(),
+                ],
+              ),
+            ),
+            // ExploreWidget(),
             // Container(
             //   height: double.infinity,
             //   child: TabBarView(

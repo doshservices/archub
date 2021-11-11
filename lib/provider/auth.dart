@@ -241,7 +241,10 @@ class Auth with ChangeNotifier {
       print(response.statusCode);
       print(data);
       if (resData["message"] != "success") {
-        throw HttpException(resData["message"]);
+        if(resData["status"] != 200){
+          throw HttpException(resData["message"]);
+        }
+        
       }
 
       notifyListeners();
@@ -324,6 +327,38 @@ class Auth with ChangeNotifier {
         // _autoLogout();
 
       }
+      print("here is $token");
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> resetPassworddata(usertoken, newpassword) async {
+    var data = jsonEncode({
+    "token" : usertoken,
+    "newPassword" : newpassword
+   });
+    try {
+      final response = await http.post(
+        "${config.baseUrl}/users/reset-password",
+        headers: {"content-type": "application/json"},
+        body: data,
+      );
+      var resData = jsonDecode(utf8.decode(response.bodyBytes));
+
+      print(resData);
+      print(response.statusCode);
+      print(data);
+      if (resData["message"] != "success") {
+        throw HttpException(resData["message"]);
+      }
+
+      // if (resData["message"] == "success") {
+      //  throw HttpException(resData['data']["message"]);
+      //   // _autoLogout();
+
+      // }
       print("here is $token");
       notifyListeners();
     } catch (error) {

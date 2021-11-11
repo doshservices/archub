@@ -5,14 +5,10 @@ import 'package:archub/screen/dashboard/post/post.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-//pages
-// import 'package:badmus/screens/dashboard/profile/profile.dart';
-// import 'package:badmus/screens/dashboard/home/home.dart';
-// import 'package:badmus/screens/dashboard/chat/chat.dart';
-// import 'package:badmus/screens/dashboard/category/category.dart';
-// import 'package:badmus/screens/dashboard/favorite/favorite.dart';
-
 class Dashboard extends StatefulWidget {
+  int indx;
+
+  Dashboard(this.indx);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -26,7 +22,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    tabController = TabController(initialIndex: 2, length: 4, vsync: this);
+    tabController = TabController(initialIndex: widget.indx, length: 4, vsync: this);
   }
 
   @override
@@ -34,9 +30,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     super.didChangeDependencies();
     if (_isInit) {
       setState(() {
-        tabController.index = 0;
+        tabController.index = widget.indx;
 
-        _page = 0;
+        _page = widget.indx;
         _isInit = false;
       });
     }
@@ -92,7 +88,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         child: Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
-          index: 0,
+          index: _page,
           items: <Widget>[
             BottomItem(
               page: _page,

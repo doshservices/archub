@@ -5,8 +5,15 @@ import 'package:archub/model/tag.dart';
 import 'package:archub/provider/user_post.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 import 'package:provider/provider.dart';
+import 'package:cloudinary_sdk/cloudinary_sdk.dart';
+import 'dart:async';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
+// import 'package:multi_image_picker_demo/themes/device_size.dart';
 
 import '../../../constants.dart';
 
@@ -23,6 +30,8 @@ class _PostScreenState extends State<PostScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
   PageController _uploadPageController = PageController(initialPage: 0);
   String imagevalue;
+  List<String> postFiles = [];
+  List<Asset> images = <Asset>[];
   bool pictureChanged = false;
   GlobalKey<FormState> _locationFormKey = GlobalKey();
   GlobalKey<FormState> _location2FormKey = GlobalKey();
@@ -34,11 +43,87 @@ class _PostScreenState extends State<PostScreen> {
   bool color1 = false;
   bool color2 = false;
   String type;
+  List<File> fileImageArray = [];
 
   File file;
   String status = '';
   String base64Image;
   File _image;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Widget buildGridView() {
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        itemBuilder: (ctx, index) {
+          Asset asset = images[index];
+          return AssetThumb(
+            asset: asset,
+            width: 300,
+            height: 300,
+          );
+        });
+  }
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+    String error = 'No Error Detected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 300,
+        enableCamera: true,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Archub",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      print(images[0].identifier);
+      // File f = await getImageFileFromAssets('images/myImage.jpg');
+      // _error = error;
+    });
+    final cloudinary = Cloudinary(
+        "579251194598375", "mURSzkqRNR8_JHjuPJKjMjX3wK0", "dasek9hic");
+    images.forEach((imageAsset) async {
+      final filePath =
+          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      print("+++++++++++++++++ " + filePath.toString());
+      File tempFile = File(filePath);
+      postFiles.clear();
+      if (tempFile.existsSync()) {
+        fileImageArray.add(tempFile);
+        final response = await cloudinary.uploadFile(
+          filePath: tempFile.path,
+          resourceType: CloudinaryResourceType.image,
+          folder: 'image',
+        );
+        if (response.isSuccessful ?? false)
+          setState(() {
+            final String imag1 = response.secureUrl;
+            print(imag1);
+            postFiles.add('$imag1');
+            print(postFiles.length);
+          });
+      }
+    });
+  }
 
   Future getImage(ImgSource source) async {
     var image = await ImagePickerGC.pickImage(
@@ -46,11 +131,14 @@ class _PostScreenState extends State<PostScreen> {
       source: source,
       maxHeight: 400,
       maxWidth: 300,
+      imageQuality: 100,
       cameraIcon: Icon(
         Icons.add,
         color: Colors.red,
       ), //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
     );
+    final cloudinary = Cloudinary(
+        "579251194598375", "mURSzkqRNR8_JHjuPJKjMjX3wK0", "dasek9hic");
     setState(() {
       _image = image;
       print(_image);
@@ -59,6 +147,18 @@ class _PostScreenState extends State<PostScreen> {
       imagevalue = base64Image;
       print(base64Image);
     });
+    final response = await cloudinary.uploadFile(
+      filePath: _image.path,
+      resourceType: CloudinaryResourceType.image,
+      folder: 'image',
+    );
+    if (response.isSuccessful ?? false)
+      setState(() {
+        final String imag1 = response.secureUrl;
+        print(imag1);
+        postFiles.add('$imag1');
+        print(postFiles.length);
+      });
   }
 
   Widget page1() {
@@ -248,7 +348,7 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Future<void> _submitLogin() async {
-    if (_image == null) {
+    if (postFiles.length==0) {
       _showShackBar('Please click on image to select picture');
       return;
     }
@@ -274,7 +374,7 @@ class _PostScreenState extends State<PostScreen> {
       print("description = " + _caption.toString());
       try {
         await Provider.of<UserPost>(context, listen: false)
-            .creatPost(_image, _location, tagvalue, _caption, type);
+            .creatPost(postFiles, _location, tagvalue, _caption, type);
         await Provider.of<UserPost>(context, listen: false).getAllUserPort();
         Navigator.of(context)
             .pushNamedAndRemoveUntil(KDashboard, (route) => false);
@@ -370,19 +470,27 @@ class _PostScreenState extends State<PostScreen> {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.start,
                 children: [
-                  Container(
-                      padding: EdgeInsets.only(left: 10),
-                      height: 100,
-                      child: GestureDetector(
-                          onTap: () {
-                            getImage(ImgSource.Both);
-                          },
-                          child: _image != null
-                              ? Image.file(
-                                  _image,
-                                  fit: BoxFit.fill,
-                                )
-                              : Image.asset('assets/images/flr.png'))),
+                  Row(
+                    children: [
+                      Container(
+                          padding: EdgeInsets.only(left: 10),
+                          height: 100,
+                          child: GestureDetector(
+                              onTap: loadAssets,
+                              // () {
+                              //   loadAssets;
+                              //   // getImage(ImgSource.Both);
+                              // },
+                              child: _image != null
+                                  ? Image.file(
+                                      _image,
+                                      fit: BoxFit.fill,
+                                    )
+                                  : Image.asset('assets/images/flr.png'))),
+                      Expanded(
+                          child: Container(height: 100, child: buildGridView()))
+                    ],
+                  ),
                   SizedBox(
                     width: 7,
                   ),
@@ -524,10 +632,11 @@ class _PostScreenState extends State<PostScreen> {
                       },
                       child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.black),
-                            borderRadius: BorderRadius.circular(30),
-                            color: color1 == true ? kAccentColor.withOpacity(0.3): Colors.white
-                          ),
+                              border: Border.all(width: 1, color: Colors.black),
+                              borderRadius: BorderRadius.circular(30),
+                              color: color1 == true
+                                  ? kAccentColor.withOpacity(0.3)
+                                  : Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text('post'),
@@ -544,10 +653,11 @@ class _PostScreenState extends State<PostScreen> {
                       },
                       child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.black),
-                            borderRadius: BorderRadius.circular(30),
-                            color: color2 == true ? kAccentColor.withOpacity(0.3): Colors.white
-                          ),
+                              border: Border.all(width: 1, color: Colors.black),
+                              borderRadius: BorderRadius.circular(30),
+                              color: color2 == true
+                                  ? kAccentColor.withOpacity(0.3)
+                                  : Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text('story'),
@@ -555,7 +665,15 @@ class _PostScreenState extends State<PostScreen> {
                     )
                   ],
                 ),
-              )
+              ),
+              // ElevatedButton(
+              //   child: Text("Pick images"),
+              //   onPressed: loadAssets,
+              // ),
+              // Container(height: 100, child: buildGridView())
+              // Expanded(
+              //   child: buildGridView(),
+              // ),
               // Form(
               //   key: _locationFormKey,
               //   child: Column(

@@ -42,6 +42,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
       final user = ModalRoute.of(context).settings.arguments as User;
       try {
+        print(token);
         await Provider.of<Auth>(context, listen: false).signUp(user, token);
         setState(() {
           _isLoading = false;
@@ -200,7 +201,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     }
                                   },
                                   onSaved: (value) {
-                                    // _userEmail = value;
+                                    token = value;
                                   },
                                 ),
                                 SizedBox(height: 30),

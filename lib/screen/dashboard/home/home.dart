@@ -1,6 +1,8 @@
 import 'package:archub/model/post_data.dart';
 import 'package:archub/provider/auth.dart';
 import 'package:archub/provider/user_post.dart';
+import 'package:archub/screen/dashboard/dashboard.dart';
+import 'package:archub/screen/dashboard/home/storeView/storePage.dart';
 import 'package:archub/utils/share/app_drawer.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
@@ -79,14 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 40,
         )),
         actions: [
-          Center(
-              child: Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Image.asset(
-              'assets/icons/chat.png',
-              height: 30,
-            ),
-          )),
+          // Center(
+          //     child: Padding(
+          //   padding: const EdgeInsets.only(right: 20),
+          //   child: Image.asset(
+          //     'assets/icons/chat.png',
+          //     height: 30,
+          //   ),
+          // )),
           Center(
               child: Padding(
             padding: const EdgeInsets.only(right: 20),
@@ -124,28 +126,39 @@ class _HomeScreenState extends State<HomeScreen> {
                           horizontal: 3,
                         ),
                         child: Column(children: [
-                          Stack(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffC4C4C4),
-                                    shape: BoxShape.circle,
-                                  )),
-                              Positioned(
-                                  top: -1,
-                                  left: 0,
-                                  right: 0,
-                                  child: Icon(Icons.add_circle))
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                return Dashboard(2);
+                              }),
+                              );
+                              
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffC4C4C4),
+                                      shape: BoxShape.circle,
+                                    )),
+                                Positioned(
+                                    top: -1,
+                                    left: 0,
+                                    right: 0,
+                                    child: Icon(Icons.add_circle))
+                              ],
+                            ),
                           ),
                           SizedBox(height: 5),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Text(
-                              'My Store',
+                              'My Story',
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Color(0xff28384F),
@@ -167,44 +180,79 @@ class _HomeScreenState extends State<HomeScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: storyData.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                width: 70,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 8),
-                                  child: Column(children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffC4C4C4),
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                storyData[index]
-                                                    .sourceId['image'],
-                                              ),
-                                              fit: BoxFit.cover)),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          StoryPage(store: storyData[index]),
                                     ),
-                                    SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      child: Text(
-                                        storyData[index]
-                                            .sourceId['fullName']
-                                            .toString()
-                                            .split(' ')
-                                            .first,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Color(0xff28384F),
-                                          fontWeight: FontWeight.w400,
+                                  );
+                                },
+                                child: Container(
+                                  width: 70,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 8),
+                                    child: Column(children: [
+                                      storyData[index]
+                                              .sourceId['image']
+                                              .contains('/avatar.svg')
+                                          ? CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.grey.withOpacity(0.2),
+                                              radius: 20,
+                                              child: SvgPicture.network(
+                                                storyData[index]
+                                                    .sourceId['image']
+                                                    .toString()
+                                                    .split("'")
+                                                    .join(""),
+                                                fit: BoxFit.contain,
+                                                height: 30,
+                                                placeholderBuilder: (BuildContext
+                                                        context) =>
+                                                    Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2),
+                                                        child:
+                                                            const CircularProgressIndicator()),
+                                              ),
+                                            )
+                                          : Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffC4C4C4),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        storyData[index]
+                                                            .sourceId['image'],
+                                                      ),
+                                                      fit: BoxFit.cover)),
+                                            ),
+                                      SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: Text(
+                                          storyData[index]
+                                              .sourceId['fullName']
+                                              .toString()
+                                              .split(' ')
+                                              .first,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xff28384F),
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    )
-                                  ]),
+                                      )
+                                    ]),
+                                  ),
                                 ),
                               );
                             }),
@@ -347,14 +395,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             30)),
                                                             child:
                                                                 RoundedRaisedButton(
-                                                              title: 'Report post',
+                                                              title:
+                                                                  'Report post',
                                                               titleColor:
                                                                   Colors.white,
                                                               buttonColor: Color(
                                                                   0xff8C191C),
                                                               onPress: () {
-                                                                Navigator.of(context).pop();
-                                                                Navigator.of(context).pushNamed(KReportPort, arguments: postData[index]);
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushNamed(
+                                                                        KReportPort,
+                                                                        arguments:
+                                                                            postData[index]);
                                                               },
                                                             ),
                                                           ),
@@ -383,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                     },
                                     child: Container(
-                                        height: 200,
+                                        height: 300,
                                         width: double.infinity,
                                         child: Image.network(
                                             postData[index].postFiles[0],
@@ -397,7 +453,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Icon(Icons.favorite),
                                       SizedBox(width: 4),
                                       Text(
-                                        postData[index].reactions.length.toString(),
+                                        postData[index]
+                                            .reactions
+                                            .length
+                                            .toString(),
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -408,7 +467,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Icon(Icons.maps_ugc),
                                       SizedBox(width: 4),
                                       Text(
-                                        postData[index].numberOfComments == null ? 0.toString() : postData[index].numberOfComments.toString(),
+                                        postData[index].numberOfComments == null
+                                            ? 0.toString()
+                                            : postData[index]
+                                                .numberOfComments
+                                                .toString(),
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -419,7 +482,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Icon(Icons.remove_red_eye),
                                       SizedBox(width: 4),
                                       Text(
-                                        postData[index].reactions.length.toString(),
+                                        postData[index]
+                                            .reactions
+                                            .length
+                                            .toString(),
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,

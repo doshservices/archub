@@ -2,6 +2,7 @@ import 'package:archub/provider/auth.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -63,9 +64,20 @@ class _ForgetpassScreenState extends State<ForgetpassScreen> {
       // Navigator.of(context).pushNamed(KSplash2);
     } catch (error) {
       if (error.toString().isNotEmpty) {
-        _showShackBar(error.toString());
+        if(error.toString()=="Token Has Been Sent To Your Email"){
+          Get.snackbar('Success!', error.toString(),
+          barBlur: 0,
+          dismissDirection: SnackDismissDirection.VERTICAL,
+          backgroundColor: Colors.green,
+          overlayBlur: 0,
+          animationDuration: Duration(milliseconds: 500),
+          duration: Duration(seconds: 3));
+          Future.delayed(Duration(seconds: 1)).then((value) => Navigator.of(context).pushNamed(KResetPasswordScreens));
+          
+        }
+        // _showShackBar(error.toString());
         setState(() {
-          errMsg = error.toString();
+          errMsg = "";
         });
       } else {
         _showShackBar('Invalid credential');

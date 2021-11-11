@@ -2,10 +2,7 @@ import 'package:archub/model/post_data.dart';
 import 'package:archub/model/user.dart';
 import 'package:archub/provider/auth.dart';
 import 'package:archub/provider/user_post.dart';
-import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'follow_card.dart';

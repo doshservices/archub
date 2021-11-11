@@ -184,11 +184,11 @@ class _PostDetailState extends State<PostDetail> {
                                     ),
                                   ),
                                   Container(
-                                      height: 200,
+                                      height: 350,
                                       width: double.infinity,
                                       child: Image.network(
                                           value.postFiles[0].toString(),
-                                          fit: BoxFit.cover)),
+                                          fit: BoxFit.fill)),
                                   SizedBox(height: 10),
                                   _isInit == false
                                       ? Row(
@@ -198,14 +198,8 @@ class _PostDetailState extends State<PostDetail> {
                                               Row(children: [
                                                 GestureDetector(
                                                     onTap: () async {
-                                                      await Provider.of<
-                                                                  UserPost>(
-                                                              context,
-                                                              listen: false)
-                                                          .reacttoPost(
-                                                              "negative",
-                                                              value.id,
-                                                              reactionvalue)
+                                                      await Provider.of<UserPost>(context,listen: false)
+                                                          .reacttoPost("negative",value.id,reactionvalue)
                                                           .then((value) {
                                                         setState(() {
                                                           _isInit = true;
@@ -216,6 +210,7 @@ class _PostDetailState extends State<PostDetail> {
                                                           // reactionvalue=value;
                                                         });
                                                       });
+                                                      await Provider.of<UserPost>(context, listen: false).getAllUserPort();
                                                       // setState(() {
                                                       //   if(react=="positive"){
                                                       //     reactionvalue+=1;

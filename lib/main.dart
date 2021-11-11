@@ -1,6 +1,7 @@
 import 'package:archub/provider/job_provider.dart';
 import 'package:archub/provider/user_post.dart';
 import 'package:archub/screen/authentication/forgetpass.dart';
+import 'package:archub/screen/authentication/reset_password.dart';
 import 'package:archub/screen/authentication/signup.dart';
 import 'package:archub/screen/authentication/verifyToken.dart';
 import 'package:archub/screen/dashboard/Account/account_setting.dart';
@@ -10,6 +11,7 @@ import 'package:archub/screen/dashboard/Notification/notification_screen.dart';
 import 'package:archub/screen/dashboard/SocialMedia/social_media.dart';
 import 'package:archub/screen/dashboard/dashboard.dart';
 import 'package:archub/screen/dashboard/home/report_post.dart';
+import 'package:archub/screen/dashboard/home/storeView/storePage.dart';
 import 'package:archub/screen/dashboard/home/widget/info_detail.dart';
 import 'package:archub/screen/dashboard/home/widget/post_detail.dart';
 import 'package:archub/screen/dashboard/job/job.dart';
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: auth.isAuth == true
-                    ? Dashboard()
+                    ? Dashboard(0)
                     : FutureBuilder(
                         future: auth.tryAutoLogin(),
                         builder: (ctx, authResultSnapShot) =>
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
           routes: {
             kLoginScreen: (ctx) => LoginScreen(),
             KSignUpScreen: (ctx) => SignUpScreen(),
-            KDashboard: (ctx) => Dashboard(),
+            KDashboard: (ctx) => Dashboard(0),
             KPostDetail: (ctx) => PostDetail(),
             KJobWidget: (ctx) => JobWidget(),
             KInfoDetail: (ctx) => InfoDetail(),
@@ -91,6 +93,7 @@ class MyApp extends StatelessWidget {
             KJobApplication: (ctx) => JobApplication(),
             KNotificationsScreen: (ctx) => NotificationsScreen(),
             KReportPort: (ctx) => ReportPort(),
+            KResetPasswordScreens: (ctx) => ResetPasswordScreens(),
           },
         );
       }),

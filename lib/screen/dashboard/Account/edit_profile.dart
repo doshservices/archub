@@ -321,7 +321,7 @@ class _EditProfileState extends State<EditProfile> {
                                 // ),
                                 // SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: user.phone.toString(),
+                                  initialValue:user.phone!= null ? user.phone.toString() : null,
                                   keyboardType: TextInputType.phone,
                                   style: TextStyle(
                                       color: Colors.black,
@@ -350,7 +350,7 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                                 SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: user.city.toString(),
+                                  initialValue: user.city != null ? user.city.toString() : null,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -378,7 +378,7 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                                 SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: user.country.toString(),
+                                  initialValue: user.country!=null ? user.country.toString():null,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -406,7 +406,7 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                                 SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: user.bio.toString(),
+                                  initialValue: user.bio != null ? user.bio.toString() : null,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,

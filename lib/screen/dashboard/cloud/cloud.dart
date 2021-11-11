@@ -3,18 +3,20 @@ import 'package:archub/screen/dashboard/cloud/widget/employer_widget.dart';
 import 'package:archub/utils/share/app_drawer.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants.dart';
+
 class CloudScreen extends StatefulWidget {
   @override
   _CloudScreenState createState() => _CloudScreenState();
 }
 
-class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin {
+class _CloudScreenState extends State<CloudScreen>
+    with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TabController _controller;
 
   @override
   void initState() {
-   
     _controller = new TabController(length: 2, vsync: this);
 
     super.initState();
@@ -66,7 +68,6 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
     }
     super.didChangeDependencies();
   }
-
 
   _showShackBar(errorMessage) {
     final snackBar = new SnackBar(
@@ -125,21 +126,20 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
       //   throw "error";
       // }
       _page3FormKey.currentState.save();
-  }
+    }
 
-  @override
-  void initState() {
-    _controller = new TabController(length: 2, vsync: this);
+    @override
+    void initState() {
+      _controller = new TabController(length: 2, vsync: this);
 
-    super.initState();
-  }
+      super.initState();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      key:  _scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xffE5E5E5),
@@ -161,10 +161,15 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
           Center(
               child: Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.black,
-              size: 30,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(KNotificationsScreen);
+              },
+              child: Icon(
+                Icons.notifications,
+                color: Colors.black,
+                size: 30,
+              ),
             ),
           ))
         ],
@@ -225,7 +230,10 @@ class _CloudScreenState extends State<CloudScreen> with TickerProviderStateMixin
               color: Color(0xffE5E5E5),
               child: TabBarView(
                 controller: _controller,
-                children: [EmployerWidget(scaffoldkey: _scaffoldKey), ApplyWidget()],
+                children: [
+                  EmployerWidget(scaffoldkey: _scaffoldKey),
+                  ApplyWidget()
+                ],
               ),
             )),
           ],

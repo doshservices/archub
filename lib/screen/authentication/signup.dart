@@ -2,7 +2,9 @@ import 'package:archub/model/user.dart';
 import 'package:archub/provider/auth.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -22,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _hidePassword = true, _hidePassword1 = true;
   bool _isLoading = false;
   String token = "";
+  bool _termsAndCondition = false;
   User user = User();
 
   Future<void> signup(BuildContext context) async {
@@ -29,6 +32,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
     if (!_tokeFormKey.currentState.validate()) {
+      return;
+    }
+    if (_termsAndCondition == false) {
+      _showShackBar("Please agree to our Terms and Conditions to continue");
+      // setState(() {
+      //   _errMsg = "Agree to Terms and Conditions";
+      // });
       return;
     }
     _regFormKey.currentState.save();
@@ -50,6 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).pushReplacementNamed(kLoginScreen);
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -124,6 +135,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> getToken(BuildContext context) async {
     if (!_regFormKey.currentState.validate()) {
+      return;
+    }
+    if (_termsAndCondition == false) {
+      _showShackBar("Please agree to our Terms and Conditions to continue");
+      // setState(() {
+      //   _errMsg = "Agree to Terms and Conditions";
+      // });
       return;
     }
     _regFormKey.currentState.save();
@@ -392,6 +410,298 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                               ),
                               Container(height: 1, color: Colors.black),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 1.0),
+                                child: CheckboxListTile(
+                                  value: _termsAndCondition,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _termsAndCondition = value;
+                                    });
+                                  },
+                                  activeColor: Theme.of(context).primaryColor,
+                                  contentPadding: EdgeInsets.all(0),
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  title: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                            text: 'I Agree to the ',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black)),
+                                        TextSpan(
+                                          text: 'Terms of Service',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xff8C191C)),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () async {
+                                              await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Dialog(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20.0)),
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.85,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(12.0),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .stretch,
+                                                            children: [
+                                                              Center(
+                                                                  child: Text(
+                                                                      'Archub Terms and Conditions',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            FontWeight.w800,
+                                                                      ))),
+                                                              Divider(
+                                                                height: 10,
+                                                                thickness: 2,
+                                                              ),
+                                                              Expanded(
+                                                                child: ListView(
+                                                                  children: [
+                                                                    // SizedBox(height: 5.0),
+                                                                    Container(
+                                                                      // padding:
+                                                                      //     EdgeInsets.all(20),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Html(
+                                                                            data:
+                                                                                "This Privacy Policy explains how we collect, use, share, and protect your Personal Information. If you do not want us to handle your Personal Information in this manner, please do not use the Arch Hub Platform. Personal Information is information that relates to you as an individually identifiable person, such as your name, e-mail address, and mobile number.",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "This Privacy Policy applies only to (a) information that we collect on the websites Arch Hub and other sites (collectively, the \"Site\") and (b) through the Handy mobile applications, including the mobile application for service requesters and the mobile application for service professionals (the \"App\") (collectively the \"Handy Platform\").I. INFORMATION WE COLLECT",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "a) PERSONAL INFORMATION YOU GIVE US",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "We collect information that you voluntarily share with us through the Arch Hub Platform and website interface. If you are using our Platform to request professional services, or contact arch-hub or its third-party service providers, you may give us: \nContact information, such as your name, physical address, telephone number, and email address Information about your home or offices, such as the number of bedrooms, the types of appliances, zip code or postal code where your home is located and your instructions for servicing your home or offices Billing information, such as credit or debit card number, expiration date & security code and/or information regarding your PayPal, Google Wallet, Crypto-Currency or other digital payment accounts and the arch hub Platform itself Ratings and reviews of the service professionals you engage through the arc hub Platform If you participate on the arc hub Platform as a service professional, or contact arc hub or its third-party service providers, you may give us: Contact information, such as your name, email address, mailing address, and phone number Log-in information, including your arch hub Platform username and password Application information; if you’re requesting permission to participate as a service professional through our Platform, data such as your experience, skills, eligibility to work, and availability will be required Photographs of yourself."
+                                                                            ,//Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "b) INFORMATION WE COLLECT THROUGH TECHNOLOGY",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "We collect information through technology to enhance our ability to serve you. When you access and use the Arch Hub Platform, or contact us or our third-party service providers, Arch Hub and, in some cases, our third-party service providers collect information about you or how you interact with our Platform. We describe below a few of the methods we use to collect information through technology.",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "c) INFORMATION COLLECTED BY MOBILE APPLICATIONS",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "We may also collect information about how you use the App, such as the amount of time you spend using the App, how many times you use a specific feature of the App over a given time period, how often you use the App, and actions you take in the App. In addition, we may gather information about the website from which you downloaded the App to help us determine what App download site is most effective (collectively \"App Usage Information\").",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "d) INFORMATION YOU PROVIDE ABOUT A THIRD PARTY",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                          Html(
+                                                                            data:
+                                                                                "If you choose to use our referral service to tell a friend about the Arch Hub Platform, we may collect your friend's name and email address. We will automatically send your friend a one-time email inviting him or her to visit the Arch Hub Platform. We store this information only to send this one-time email and to track the success of our referral program. We do not use this information for any other marketing purpose unless we obtain consent from that person or we explicitly say otherwise. Please be aware that when you refer a friend, your e-mail address may be included in the message sent to your friend.",
+                                                                            //Optional parameters:
+                                                                            onLinkTap:
+                                                                                (url) {
+                                                                              // open url in a webview
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            10.0),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Divider(
+                                                                height: 10,
+                                                                thickness: 2,
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  Card(
+                                                                    child:
+                                                                        Container(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          3.2,
+                                                                      child:
+                                                                          RoundedRaisedButton(
+                                                                        buttonColor:
+                                                                            Colors.white,
+                                                                        titleColor:
+                                                                            Colors.black,
+                                                                        title:
+                                                                            "Decline",
+                                                                        onPress:
+                                                                            () {
+                                                                          setState(
+                                                                              () {
+                                                                            _termsAndCondition =
+                                                                                false;
+                                                                          });
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        3.2,
+                                                                    child:
+                                                                        RoundedRaisedButton(
+                                                                      title:
+                                                                          "Accept",
+                                                                      onPress:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          _termsAndCondition =
+                                                                              true;
+                                                                        });
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+                                            },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                             ],
                           ),
                         ),

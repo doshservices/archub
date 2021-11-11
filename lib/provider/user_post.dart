@@ -6,11 +6,11 @@ import 'package:archub/model/comment.dart';
 import 'package:archub/model/http_exception.dart';
 import 'package:archub/model/post_data.dart';
 import 'package:archub/model/tag.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart' as config;
-import 'package:http_parser/http_parser.dart';
 
 class UserPost with ChangeNotifier {
   List<PostData> postData = [];
@@ -164,12 +164,14 @@ class UserPost with ChangeNotifier {
 
       // print("/// 777 " +resData.toString());
       if (resData["message"] == "success") {
-        print("/// 777 " +resData.toString());
+        print("/// 777 " + resData.toString());
         PostData itemcategory = PostData();
 
         itemcategory.isActive = resData['data']['data']['isActive'];
         // print(itemcategory.isActive);
-        itemcategory.reactions = resData['data']['data']['reactions']==null ? [] : resData['data']['data']['reactions'];
+        itemcategory.reactions = resData['data']['data']['reactions'] == null
+            ? []
+            : resData['data']['data']['reactions'];
         itemcategory.id = resData['data']['data']['_id'];
         // itemcategory.sourceId = resData['data']['data']['sourceId'];
         itemcategory.title = resData['data']['data']['title'];
@@ -179,7 +181,8 @@ class UserPost with ChangeNotifier {
         itemcategory.attachmentSize = resData['data']['data']['attachmentSize'];
         itemcategory.createdAt = resData['data']['data']['createdAt'];
         itemcategory.updatedAt = resData['data']['data']['updatedAt'];
-        itemcategory.numberOfComments = resData['data']['data']['numberOfComments'];
+        itemcategory.numberOfComments =
+            resData['data']['data']['numberOfComments'];
 
         postDatabyId = itemcategory;
       }
@@ -209,7 +212,7 @@ class UserPost with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
 
-      print("/// 777 " +resData.toString());
+      print("/// 777 " + resData.toString());
       if (resData["message"] == "success") {
         List<dynamic> entities = resData["data"]["data"];
         entities.forEach((entity) {
@@ -255,7 +258,7 @@ class UserPost with ChangeNotifier {
       var resData = jsonDecode(response.body);
 
       print(resData);
-      if (response.statusCode==200) {
+      if (response.statusCode == 200) {
         List<dynamic> entities = resData["message"];
         entities.forEach((entity) {
           CommentData itemcategory = CommentData();
@@ -274,7 +277,8 @@ class UserPost with ChangeNotifier {
     }
   }
 
-  Future<void> creatPost(File base64Image, title, tag, description, postTo) async {
+  Future<void> creatPost(
+      List postFiles, title, tag, description, postTo) async {
     final prefs = await SharedPreferences.getInstance();
     final extractdata = json.decode(prefs.getString("userData"));
     String token = extractdata["token"];
@@ -283,75 +287,94 @@ class UserPost with ChangeNotifier {
     print(tag.toString());
     print(description);
     print(postTo);
-    // Map<String,String> headers={
-    //   "Authorization":"Bearer $token",
-    //   "Content-type": "multipart/form-data"
-    // };
-    // print(title + " " + tag + " " + description + " " + postTo);
-
-    print(base64Image.path.split(".").last);
-    try{
-      print(base64Image.path);
-      var request = http.MultipartRequest('POST',
-          Uri.parse("https://archub.herokuapp.com/api/posts"));
-      Map<String,String> headers={
-      "Authorization":"Bearer $token",
-      "Content-type": "multipart/form-data"
-    };
-    request.files.add(
-        http.MultipartFile(
-           'postFiles',
-            base64Image.readAsBytes().asStream(),
-            base64Image.lengthSync(),
-            // file.readAsBytes().asStream(),
-            filename: base64Image.path.split("/").last,
-          contentType: MediaType('image',"${base64Image.path.split(".").last}"),
-        ),
-    );
-    request.fields.addAll({
-      "title":title,
-      "description":description,
-      "tag":tag,
-      "postTo" : postTo.toString()
+    var data = jsonEncode({
+      "title": title,
+      "description": description,
+      "tag": tag,
+      "postFiles": postFiles,
+      "postTo": postTo
     });
-      // request.files.add(
-      //   await http.MultipartFile.fromPath(
-      //     'postFiles', 
-      //     base64Image.path,
-      //   // filename: base64Image.path.split("/").last,
-      //   // contentType: MediaType.parse('image/jpg'),
-      //   )
-      // );
-      // if (image1 != null) {
-      //   request.files.add(
-      //       await http.MultipartFile.fromPath('other_photos', image1.path));
-      // }
-      // request.fields['title'] = title;
-      // request.fields['description'] = description;
-      // request.fields['tag'] = tag;
-      // request.fields['postTo'] = postTo.toString();
-      // request.fields['scale_id'] = scale_id.toString();
-      // request.fields['qty'] = qty.toString();
-      // request.headers.addAll({"Authorization": "Bearer $token"});
-      request.headers.addAll(headers);
-      print("request: "+request.toString());
-      var response = await request.send();
+    print(data);
 
-      // print("????*******");
-      var body = await response.stream.bytesToString();
-      if (response.statusCode != 200) {
-        print(body);
-        // print("Error Uploading Product");
-        throw HttpException("Error Uploading Product");
-        
+    try {
+      final response = await http.post(
+        "${config.baseUrl}/posts",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: data,
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      // print(data);
+      if (resData["message"] != "success") {
+        throw HttpException("Error posting Job");
       }
-      else{
-        // print(jsonDecode(body));
-      }
+
+      notifyListeners();
 
       notifyListeners();
     } catch (error) {
       throw error;
+    }
+  }
+
+  Future<void> uploadPost(
+      File base64Image, title, tag, description, postTo) async {
+    final prefs = await SharedPreferences.getInstance();
+    final extractdata = json.decode(prefs.getString("userData"));
+    String token = extractdata["token"];
+    String fileName = base64Image.path.split('/').last;
+    print(fileName);
+    FormData formData = FormData.fromMap({
+      "postFiles":
+          await MultipartFile.fromFile(base64Image.path, filename: fileName),
+      "title": title,
+      "description": description,
+      "tag": tag,
+      "postTo": postTo.toString()
+    });
+    // print(formData);
+    try {
+      Dio _dio = Dio();
+      final response = await _dio.post("https://archub.herokuapp.com/api/posts",
+          data: formData,
+          options: Options(headers: {
+            // 'Accept': "application/json",
+            "Authorization": "Bearer $token",
+            'Content-Type':
+                'multipart/form-data; boundary=<calculated when request is sent>',
+            // 'Charset': 'utf-8'
+          }));
+      print(response);
+      var resData = jsonDecode(response.toString());
+      print(response);
+      if (response.statusCode == 200) {
+        String responseMessage = resData["body"].toString();
+        print(responseMessage);
+        // String videoUrl = resData["data"]["url"];
+        // return {"responseMessage": responseMessage, "videoUrl": videoUrl};
+      } else {
+        throw HttpException(resData);
+      }
+    } on DioError catch (error) {
+      print(error.toString());
+      var resData;
+      try {
+        resData = jsonDecode(error.response.toString());
+        print(resData);
+        throw HttpException(error.toString());
+      } on HttpException catch (error) {
+        throw (error);
+      } catch (error) {
+        print(error);
+        throw error;
+      }
+    } catch (error) {
+      print(error);
+      throw ("An error occured while registering");
     }
   }
 
@@ -363,10 +386,8 @@ class UserPost with ChangeNotifier {
     print(postId);
     print(comment);
 
-    var data = jsonEncode({
-    "postId": postId.toString(),
-    "comment": comment.toString()
-  });
+    var data = jsonEncode(
+        {"postId": postId.toString(), "comment": comment.toString()});
 
     try {
       final response = await http.post(
@@ -452,28 +473,24 @@ class UserPost with ChangeNotifier {
     final extractdata = json.decode(prefs.getString("userData"));
     String token = extractdata["token"];
     print(token);
-    var data = jsonEncode({
-        "reactionType":react
-    });
+    var data = jsonEncode({"reactionType": react});
 
     try {
-      final response = await http.post(
-        "${config.baseUrl}/posts/$id/react",
-        headers: {
-          "content-type": "application/json",
-          "Authorization": "Bearer $token"
-        },
-        body: data
-      );
+      final response = await http.post("${config.baseUrl}/posts/$id/react",
+          headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer $token"
+          },
+          body: data);
       var resData = jsonDecode(response.body);
 
       print(resData);
       if (resData["message"] != "success") {
-        if(resData['status']=="error"){
+        if (resData['status'] == "error") {
           return reactvalue;
         }
         // throw HttpException(resData["message"]);
-      }else{
+      } else {
         return reactvalue + 1;
       }
 

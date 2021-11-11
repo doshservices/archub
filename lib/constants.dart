@@ -28,3 +28,5 @@ const KProfileScreen = 'profileScreen';
 const KJobApplication = 'jobApplication';
 const KNotificationsScreen = 'notificationsScreen';
 const KReportPort = 'reportPort';
+const KStoryPage = 'storyPage';
+const KResetPasswordScreens = 'resetPasswordScreens';

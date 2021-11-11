@@ -60,8 +60,11 @@ class _ApplyWidgetState extends State<ApplyWidget> {
                                 children: [
                                   Container(
                                       height: 80,
+                                      width: 100,
                                       child: Image.network(
-                                          jobsData[i].logo)),
+                                          jobsData[i].logo, 
+                                          fit: BoxFit.fill,
+                                        )),
                                   SizedBox(width: 20),
                                   Column(
                                       crossAxisAlignment:
