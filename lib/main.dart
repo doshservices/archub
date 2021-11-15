@@ -24,7 +24,6 @@ import 'package:archub/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import 'constants.dart';
 import 'provider/auth.dart';
 import 'screen/authentication/login.dart';
@@ -64,14 +63,14 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: auth.isAuth == true
-                    ? Dashboard(0)
-                    : FutureBuilder(
-                        future: auth.tryAutoLogin(),
-                        builder: (ctx, authResultSnapShot) =>
-                            authResultSnapShot.connectionState ==
-                                    ConnectionState.waiting
-                                ? SplashScreen()
-                                : LoginScreen()),
+              ? Dashboard(0)
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapShot) =>
+                      authResultSnapShot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : LoginScreen()),
           routes: {
             kLoginScreen: (ctx) => LoginScreen(),
             KSignUpScreen: (ctx) => SignUpScreen(),
@@ -85,7 +84,7 @@ class MyApp extends StatelessWidget {
             KPostScreen: (ctx) => PostScreen(),
             KJobScreen: (ctx) => JobScreen(),
             KVerification: (ctx) => VerificationScreen(),
-            KSplash2 : (ctx) => Splash2Screen(),
+            KSplash2: (ctx) => Splash2Screen(),
             KForgetpassScreen: (ctx) => ForgetpassScreen(),
             KEditProfile: (ctx) => EditProfile(),
             KResetPasswordScreen: (ctx) => ResetPasswordScreen(),

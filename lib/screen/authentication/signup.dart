@@ -504,7 +504,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -516,7 +517,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -528,22 +530,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
-                                                                                "We collect information that you voluntarily share with us through the Arch Hub Platform and website interface. If you are using our Platform to request professional services, or contact arch-hub or its third-party service providers, you may give us: \nContact information, such as your name, physical address, telephone number, and email address Information about your home or offices, such as the number of bedrooms, the types of appliances, zip code or postal code where your home is located and your instructions for servicing your home or offices Billing information, such as credit or debit card number, expiration date & security code and/or information regarding your PayPal, Google Wallet, Crypto-Currency or other digital payment accounts and the arch hub Platform itself Ratings and reviews of the service professionals you engage through the arc hub Platform If you participate on the arc hub Platform as a service professional, or contact arc hub or its third-party service providers, you may give us: Contact information, such as your name, email address, mailing address, and phone number Log-in information, including your arch hub Platform username and password Application information; if you’re requesting permission to participate as a service professional through our Platform, data such as your experience, skills, eligibility to work, and availability will be required Photographs of yourself."
-                                                                            ,//Optional parameters:
+                                                                                "We collect information that you voluntarily share with us through the Arch Hub Platform and website interface. If you are using our Platform to request professional services, or contact arch-hub or its third-party service providers, you may give us: \nContact information, such as your name, physical address, telephone number, and email address Information about your home or offices, such as the number of bedrooms, the types of appliances, zip code or postal code where your home is located and your instructions for servicing your home or offices Billing information, such as credit or debit card number, expiration date & security code and/or information regarding your PayPal, Google Wallet, Crypto-Currency or other digital payment accounts and the arch hub Platform itself Ratings and reviews of the service professionals you engage through the arc hub Platform If you participate on the arc hub Platform as a service professional, or contact arc hub or its third-party service providers, you may give us: Contact information, such as your name, email address, mailing address, and phone number Log-in information, including your arch hub Platform username and password Application information; if you’re requesting permission to participate as a service professional through our Platform, data such as your experience, skills, eligibility to work, and availability will be required Photographs of yourself.", //Optional parameters:
                                                                             onLinkTap:
                                                                                 (url) {
                                                                               // open url in a webview
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -555,7 +559,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -567,7 +572,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -579,7 +585,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -591,7 +598,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:
@@ -603,7 +611,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                             },
                                                                           ),
                                                                           SizedBox(
-                                                                            height: 5,
+                                                                            height:
+                                                                                5,
                                                                           ),
                                                                           Html(
                                                                             data:

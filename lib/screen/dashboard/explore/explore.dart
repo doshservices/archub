@@ -22,7 +22,7 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   @override
   void initState() {
-    _controller = new TabController(length: 5, vsync: this);
+    _controller = new TabController(length: 8, vsync: this);
 
     super.initState();
   }
@@ -90,17 +90,24 @@ class _ExploreScreenState extends State<ExploreScreen>
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                     child: Row(
                       children: [
-                        Icon(Icons.search),
                         SizedBox(width: 5),
                         Expanded(
-                          child: TextFormField(
-                              decoration: InputDecoration(
-                                  hintText: 'Search ',
-                                  contentPadding: EdgeInsets.all(10),
-                                  hintStyle:
-                                      TextStyle(color: Color(0xff28384F)),
-                                  border: InputBorder.none)),
-                        )
+                          child: GestureDetector(
+                            onTap: () {
+                              showSearch(
+                                  context: context,
+                                  delegate: CustomSearchDelegate());
+                            },
+                            child: TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: 'Search ',
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintStyle:
+                                        TextStyle(color: Color(0xff28384F)),
+                                    border: InputBorder.none)),
+                          ),
+                        ),
+                        Icon(Icons.search),
                       ],
                     ),
                   ),
@@ -203,8 +210,50 @@ class _ExploreScreenState extends State<ExploreScreen>
                                       //     : Colors.white10,
                                     ),
                                     child: Tab(
-                                      text: "Explore",
-                                      key: Key("Explore"),
+                                      text: "Photography",
+                                      key: Key("Photography"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 3
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Paint Art",
+                                      key: Key("Paint Art"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 3
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "Motion Graphics Design",
+                                      key: Key("Motion Graphics Design"),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // color: currentSelection == 3
+                                      //     ? Color(0xff369F2A).withOpacity(0.2)
+                                      //     : Colors.white10,
+                                    ),
+                                    child: Tab(
+                                      text: "3D Animation",
+                                      key: Key("3D Animation"),
                                     ),
                                   ),
                                 ],
@@ -234,6 +283,9 @@ class _ExploreScreenState extends State<ExploreScreen>
                   ExploreWidget(),
                   ExploreWidget(),
                   ExploreWidget(),
+                  ExploreWidget(),
+                  ExploreWidget(),
+                  ExploreWidget(),
                 ],
               ),
             ),
@@ -255,5 +307,50 @@ class _ExploreScreenState extends State<ExploreScreen>
         ),
       ),
     );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    if (query.length < 3) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Text(
+              "Search term must be longer than two letters.",
+            ),
+          )
+        ],
+      );
+    }
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    throw UnimplementedError();
   }
 }

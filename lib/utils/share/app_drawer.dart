@@ -58,7 +58,7 @@ class AppDrawer extends StatelessWidget {
                                   size: 30,
                                 )),
                           )
-                        : user.pictureUrl.toString().contains('/avatar.svg')
+                        : user.pictureUrl == null
                             ? CircleAvatar(
                                 backgroundColor: Colors.grey.withOpacity(0.2),
                                 radius: 40,

@@ -131,10 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                return Dashboard(2);
-                              }),
+                                  return Dashboard(2);
+                                }),
                               );
-                              
                             },
                             child: Stack(
                               children: [
@@ -281,9 +280,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.of(context).pushNamed(KInfoDetail,
                                       arguments: postData[index].sourceId);
                                 },
-                                leading: postData[index]
-                                        .sourceId['image']
-                                        .contains('/avatar.svg')
+                                leading: postData[index].sourceId['image'] ==
+                                        true
                                     ? CircleAvatar(
                                         backgroundColor:
                                             Colors.grey.withOpacity(0.2),
@@ -308,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : CircleAvatar(
                                         radius: 25,
                                         backgroundImage: NetworkImage(
-                                          postData[index].sourceId['image'],
+                                          postData[index].postFiles[index],
                                         ),
                                       ),
                                 title: Text(

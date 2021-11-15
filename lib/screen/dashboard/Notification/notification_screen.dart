@@ -271,6 +271,7 @@ class NotificationScreeen extends StatelessWidget {
           child: Container(
             width: double.infinity,
             child: RoundedRaisedButton(
+              onPress: () {},
               title: 'Save changes',
               buttonColor: Color(0xff8C191C),
             ),
