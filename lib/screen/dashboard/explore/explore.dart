@@ -1,11 +1,15 @@
 import 'package:archub/model/imageData.dart';
+import 'package:archub/provider/auth.dart';
 import 'package:archub/screen/dashboard/explore/widget/explore_widget.dart';
 import 'package:archub/utils/share/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+
+var user;
 
 class ExploreScreen extends StatefulWidget {
   // const HomeScreen({ Key key }) : super(key: key);
@@ -29,6 +33,7 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<Auth>(context).user;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -102,12 +107,18 @@ class _ExploreScreenState extends State<ExploreScreen>
                                 decoration: InputDecoration(
                                     hintText: 'Search ',
                                     contentPadding: EdgeInsets.all(10),
-                                    hintStyle:
-                                        TextStyle(color: Color(0xff28384F)),
+                                    hintStyle: TextStyle(
+                                        fontSize: 20, color: Color(0xff28384F)),
                                     border: InputBorder.none)),
                           ),
                         ),
-                        Icon(Icons.search),
+                        IconButton(
+                            onPressed: () {
+                              showSearch(
+                                  context: context,
+                                  delegate: CustomSearchDelegate());
+                            },
+                            icon: Icon(Icons.search)),
                       ],
                     ),
                   ),
@@ -350,6 +361,7 @@ class CustomSearchDelegate extends SearchDelegate {
     // return Column(
     //   children: [
     //     FutureBuilder(
+    //       future: user,
     //       builder: )
     //   ],
     // )
