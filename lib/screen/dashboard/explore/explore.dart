@@ -347,6 +347,12 @@ class CustomSearchDelegate extends SearchDelegate {
         ],
       );
     }
+    // return Column(
+    //   children: [
+    //     FutureBuilder(
+    //       builder: )
+    //   ],
+    // )
   }
 
   @override

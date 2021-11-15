@@ -16,6 +16,7 @@ const KJobWidget = "jobWidget";
 const KInfoDetail = "infoDetail";
 const KNotificationScreeen = "notificationScreeen";
 const KAccountSetting = "accountSetting";
+const kAboutScreen = "aboutScreen";
 const KSocailMedia = "socailMedia";
 const KPostScreen = "postScreen";
 const KJobScreen = "jobScreen";

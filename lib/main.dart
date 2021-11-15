@@ -9,6 +9,7 @@ import 'package:archub/screen/dashboard/Account/profile.dart';
 import 'package:archub/screen/dashboard/Account/reset_password.dart';
 import 'package:archub/screen/dashboard/Notification/notification_screen.dart';
 import 'package:archub/screen/dashboard/SocialMedia/social_media.dart';
+import 'package:archub/screen/dashboard/about.dart';
 import 'package:archub/screen/dashboard/dashboard.dart';
 import 'package:archub/screen/dashboard/home/report_post.dart';
 import 'package:archub/screen/dashboard/home/storeView/storePage.dart';
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
             KVerification: (ctx) => VerificationScreen(),
             KSplash2: (ctx) => Splash2Screen(),
             KForgetpassScreen: (ctx) => ForgetpassScreen(),
+            kAboutScreen: (ctx) => AboutScreen(),
             KEditProfile: (ctx) => EditProfile(),
             KResetPasswordScreen: (ctx) => ResetPasswordScreen(),
             KProfileScreen: (ctx) => ProfileScreen(),

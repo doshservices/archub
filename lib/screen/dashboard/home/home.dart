@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final categoryProvider =
         Provider.of<UserPost>(context, listen: false).postData;
+    final user = Provider.of<Auth>(context).user;
     final data = Provider.of<UserPost>(context, listen: false).storyData;
     print(categoryProvider.length);
     postData = categoryProvider;
@@ -306,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : CircleAvatar(
                                         radius: 25,
                                         backgroundImage: NetworkImage(
-                                          postData[index].postFiles[index],
+                                          user.pictureUrl,
                                         ),
                                       ),
                                 title: Text(

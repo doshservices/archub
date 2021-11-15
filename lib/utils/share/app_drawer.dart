@@ -129,6 +129,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   ListTile(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(kAboutScreen);
+                    },
                     leading: Image.asset(
                       'assets/icons/about.png',
                       height: 70,

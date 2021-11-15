@@ -35,14 +35,14 @@ class _ExploreWidgetState extends State<ExploreWidget> {
         },
         child: Image.asset(
           imageList[index].image,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
           width: double.infinity,
         ),
       ),
       staggeredTileBuilder: (int index) =>
           new StaggeredTile.count(2, index.isEven ? 2 : 1),
-      mainAxisSpacing: 2,
-      crossAxisSpacing: 2,
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
     );
   }
 }

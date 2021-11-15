@@ -6,6 +6,8 @@ import 'package:archub/provider/user_post.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
+import 'package:get/route_manager.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 import 'package:provider/provider.dart';
 import 'package:cloudinary_sdk/cloudinary_sdk.dart';
@@ -348,7 +350,7 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Future<void> _submitLogin() async {
-    if (postFiles.length==0) {
+    if (postFiles.length == 0) {
       _showShackBar('Please click on image to select picture');
       return;
     }
@@ -375,6 +377,14 @@ class _PostScreenState extends State<PostScreen> {
       try {
         await Provider.of<UserPost>(context, listen: false)
             .creatPost(postFiles, _location, tagvalue, _caption, type);
+
+        Get.snackbar('Success!', 'Post/Story Created Succesfully',
+            barBlur: 0,
+            dismissDirection: SnackDismissDirection.VERTICAL,
+            backgroundColor: Colors.green,
+            overlayBlur: 0,
+            animationDuration: Duration(milliseconds: 500),
+            duration: Duration(seconds: 2));
         await Provider.of<UserPost>(context, listen: false).getAllUserPort();
         Navigator.of(context)
             .pushNamedAndRemoveUntil(KDashboard, (route) => false);
@@ -439,7 +449,7 @@ class _PostScreenState extends State<PostScreen> {
                 children: [
                   Text('  ',
                       style: TextStyle(fontSize: 16, color: Color(0xff28384F))),
-                  Text('New post',
+                  Text('New Post/Story',
                       style: TextStyle(fontSize: 16, color: Color(0xff28384F))),
                   GestureDetector(
                     onTap: () {
@@ -635,7 +645,7 @@ class _PostScreenState extends State<PostScreen> {
                               border: Border.all(width: 1, color: Colors.black),
                               borderRadius: BorderRadius.circular(30),
                               color: color1 == true
-                                  ? kAccentColor.withOpacity(0.3)
+                                  ? Color(0xff8C191C)
                                   : Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
@@ -656,7 +666,7 @@ class _PostScreenState extends State<PostScreen> {
                               border: Border.all(width: 1, color: Colors.black),
                               borderRadius: BorderRadius.circular(30),
                               color: color2 == true
-                                  ? kAccentColor.withOpacity(0.3)
+                                  ? Color(0xff8C191C)
                                   : Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
