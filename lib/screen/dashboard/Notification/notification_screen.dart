@@ -2,9 +2,16 @@ import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class NotificationScreeen extends StatelessWidget {
+class NotificationScreeen extends StatefulWidget {
   const NotificationScreeen({Key key}) : super(key: key);
 
+  @override
+  _NotificationScreeenState createState() => _NotificationScreeenState();
+}
+
+class _NotificationScreeenState extends State<NotificationScreeen> {
+  bool _isLoading = false;
+  int initialIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +107,7 @@ class NotificationScreeen extends StatelessWidget {
                                 },
                               ),
                             ]),
-                        SizedBox(height: 25),
+                        SizedBox(height: 20),
                         Text(
                           'Project likes',
                           style: TextStyle(
@@ -140,7 +147,7 @@ class NotificationScreeen extends StatelessWidget {
                                 },
                               ),
                             ]),
-                        SizedBox(height: 25),
+                        SizedBox(height: 20),
                         Text(
                           'Comments',
                           style: TextStyle(
@@ -180,7 +187,7 @@ class NotificationScreeen extends StatelessWidget {
                                 },
                               ),
                             ]),
-                        SizedBox(height: 25),
+                        SizedBox(height: 20),
                         Text(
                           'Publish projects',
                           style: TextStyle(
@@ -220,7 +227,7 @@ class NotificationScreeen extends StatelessWidget {
                                 },
                               ),
                             ]),
-                        SizedBox(height: 25),
+                        SizedBox(height: 20),
                         Text(
                           'Publish jobs',
                           style: TextStyle(
@@ -271,7 +278,10 @@ class NotificationScreeen extends StatelessWidget {
           child: Container(
             width: double.infinity,
             child: RoundedRaisedButton(
-              onPress: () {},
+              onPress: () {
+                setState(() {});
+              },
+              isLoading: _isLoading,
               title: 'Save changes',
               buttonColor: Color(0xff8C191C),
             ),
