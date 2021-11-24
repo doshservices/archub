@@ -534,7 +534,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                                   return AlertDialog(
                                     title: Text("Uploaded"),
                                     content: Text(
-                                        "Your product has been successfully uploaded"),
+                                        "Your Job Application has been successfully creared"),
                                     actions: [
                                       FlatButton(
                                         child: Text("OK"),

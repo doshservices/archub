@@ -7,8 +7,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class Dashboard extends StatefulWidget {
   int indx;
+  String title;
 
-  Dashboard(this.indx);
+  Dashboard(this.indx, this.title);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -23,6 +24,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     tabController = TabController(initialIndex: widget.indx, length: 4, vsync: this);
+    
   }
 
   @override
@@ -119,6 +121,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             setState(() {
               tabController.index = index;
               _page = index;
+              widget.title = null;
             });
           },
           height: 65,
@@ -131,7 +134,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           children: [
             HomeScreen(),
             ExploreScreen(),
-            PostScreen(),
+            PostScreen(title:widget.title!= null ? widget.title : "Post"),
             CloudScreen()
           ],
         ),

@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: auth.isAuth == true
-              ? Dashboard(0)
+              ? Dashboard(0, null)
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (ctx, authResultSnapShot) =>
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           routes: {
             kLoginScreen: (ctx) => LoginScreen(),
             KSignUpScreen: (ctx) => SignUpScreen(),
-            KDashboard: (ctx) => Dashboard(0),
+            KDashboard: (ctx) => Dashboard(0, null),
             KPostDetail: (ctx) => PostDetail(),
             KJobWidget: (ctx) => JobWidget(),
             KInfoDetail: (ctx) => InfoDetail(),

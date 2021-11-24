@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<UserPost>(context, listen: false).getAllUserPort();
       await Provider.of<UserPost>(context, listen: false).getAllUserStory();
+      await Provider.of<UserPost>(context, listen: false).getAllUserPort();
       await Provider.of<UserPost>(context, listen: false).getTag();
       await Provider.of<Auth>(context, listen: false).getProfile();
       setState(() {
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return Dashboard(2);
+                                  return Dashboard(2, "Story");
                                 }),
                               );
                             },
@@ -281,9 +281,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.of(context).pushNamed(KInfoDetail,
                                       arguments: postData[index].sourceId);
                                 },
-                                leading: postData[index].sourceId['image'] ==
-                                        true
-                                    ? CircleAvatar(
+                                leading: 
+                                // postData[index].sourceId['image'] ==
+                                //         true
+                                //     ? 
+                                    CircleAvatar(
                                         backgroundColor:
                                             Colors.grey.withOpacity(0.2),
                                         radius: 25,
@@ -303,13 +305,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child:
                                                       const CircularProgressIndicator()),
                                         ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 25,
-                                        backgroundImage: NetworkImage(
-                                          user.pictureUrl,
-                                        ),
                                       ),
+                                    // : CircleAvatar(
+                                    //     radius: 25,
+                                    //     backgroundImage: NetworkImage(
+                                    //       user.pictureUrl,
+                                    //     ),
+                                    //   ),
                                 title: Text(
                                   postData[index].sourceId['fullName'],
                                   style: TextStyle(

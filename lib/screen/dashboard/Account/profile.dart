@@ -314,15 +314,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            hidden = !hidden;
-                          });
-                        },
-                        child: Icon(hidden == true
-                            ? Icons.arrow_drop_down
-                            : Icons.arrow_drop_up))
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       setState(() {
+                    //         hidden = !hidden;
+                    //       });
+                    //     },
+                    //     child: Icon(hidden == true
+                    //         ? Icons.arrow_drop_down
+                    //         : Icons.arrow_drop_up))
                   ],
                 ),
               ),

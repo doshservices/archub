@@ -16,9 +16,9 @@ class _ExploreWidgetState extends State<ExploreWidget> {
   Widget build(BuildContext context) {
     final imageList = [
       ImageData(id: '1', image: 'assets/images/img1.png'),
-      ImageData(id: '2', image: 'assets/images/img2.png'),
-      ImageData(id: '3', image: 'assets/images/img3.png'),
-      ImageData(id: '4', image: 'assets/images/img4.png'),
+      ImageData(id: '2', image: 'assets/images/img5.png'),
+      ImageData(id: '3', image: 'assets/images/img5.png'),
+      ImageData(id: '4', image: 'assets/images/img5.png'),
       ImageData(id: '5', image: 'assets/images/img5.png'),
       ImageData(id: '6', image: 'assets/images/img6.png'),
       ImageData(id: '7', image: 'assets/images/img7.png'),
@@ -31,17 +31,17 @@ class _ExploreWidgetState extends State<ExploreWidget> {
       itemCount: imageList.length,
       itemBuilder: (BuildContext context, int index) => GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(KPostDetail);
+          // Navigator.of(context).pushNamed(KPostDetail);
         },
         child: Image.asset(
           imageList[index].image,
-          fit: BoxFit.cover,
-          width: double.infinity,
+          fit: BoxFit.fill,
+          // width: MediaQuery.of(context).size.width/2,
         ),
       ),
       staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 2 : 1),
-      mainAxisSpacing: 0,
+          new StaggeredTile.count(2, index.isEven ? 2.3 : 1.5),
+      mainAxisSpacing: 5,
       crossAxisSpacing: 0,
     );
   }

@@ -74,7 +74,7 @@ class UserPost with ChangeNotifier {
     try {
       storyData = [];
       final response = await http.get(
-        "https://archub.herokuapp.com/stories",
+        "${config.baseUrl}/stories",
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"

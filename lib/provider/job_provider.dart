@@ -128,7 +128,7 @@ class JobProvider with ChangeNotifier {
       print(resData);
       // print(data);
       if (resData["message"] != "success") {
-        throw HttpException("Error Apply job");
+        throw HttpException(resData['message']);
       }
 
       notifyListeners();

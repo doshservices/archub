@@ -93,7 +93,14 @@ class _JobApplicationState extends State<JobApplication> {
         // ;
       } catch (error) {
         if (error.toString().isNotEmpty) {
-          _showShackBar(error.toString());
+          Get.snackbar('Info!!!', error.toString(),
+          barBlur: 0,
+          dismissDirection: SnackDismissDirection.VERTICAL,
+          backgroundColor: Colors.red[200],
+          overlayBlur: 0,
+          animationDuration: Duration(milliseconds: 1000),
+          duration: Duration(seconds: 3));
+          // _showShackBar(error.toString());
           setState(() {
             // errMsg = error.toString();
           });

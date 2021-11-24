@@ -20,7 +20,8 @@ import 'package:path_provider/path_provider.dart';
 import '../../../constants.dart';
 
 class PostScreen extends StatefulWidget {
-  const PostScreen({Key key}) : super(key: key);
+  String title;
+  PostScreen({Key key, this.title}) : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -361,7 +362,7 @@ class _PostScreenState extends State<PostScreen> {
       _showShackBar('Please click on image to select picture');
       return;
     }
-    if (type == null) {
+    if (widget.title == null) {
       _showShackBar('Please select post type');
       return;
     }
@@ -372,6 +373,7 @@ class _PostScreenState extends State<PostScreen> {
       print('I am connected to a mobile network');
       setState(() {
         _isLoading = true;
+        type = widget.title.toLowerCase();
       });
       print("description = " + _caption.toString());
       try {
@@ -449,7 +451,7 @@ class _PostScreenState extends State<PostScreen> {
                 children: [
                   Text('  ',
                       style: TextStyle(fontSize: 16, color: Color(0xff28384F))),
-                  Text('New Post/Story',
+                  Text('New ${widget.title}',
                       style: TextStyle(fontSize: 16, color: Color(0xff28384F))),
                   GestureDetector(
                     onTap: () {
@@ -619,63 +621,64 @@ class _PostScreenState extends State<PostScreen> {
                   ),
                 ),
               ),
-              Container(height: 4, color: Color(0xffE5E5E5)),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: Text('Select Post Type'),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          color1 = true;
-                          color2 = false;
-                          type = "post";
-                        });
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.black),
-                              borderRadius: BorderRadius.circular(30),
-                              color: color1 == true
-                                  ? Color(0xff8C191C)
-                                  : Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text('post'),
-                          )),
-                    ),
-                    SizedBox(width: 20),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          color1 = false;
-                          color2 = true;
-                          type = "story";
-                        });
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.black),
-                              borderRadius: BorderRadius.circular(30),
-                              color: color2 == true
-                                  ? Color(0xff8C191C)
-                                  : Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text('story'),
-                          )),
-                    )
-                  ],
-                ),
-              ),
+              SizedBox(height: 10),
+              // Container(height: 4, color: Color(0xffE5E5E5)),
+              // SizedBox(height: 20),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(
+              //     horizontal: 20,
+              //   ),
+              //   child: Text('Select Post Type'),
+              // ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              //   child: Row(
+              //     children: [
+              //       GestureDetector(
+              //         onTap: () {
+              //           setState(() {
+              //             color1 = true;
+              //             color2 = false;
+              //             type = "post";
+              //           });
+              //         },
+              //         child: Container(
+              //             decoration: BoxDecoration(
+              //                 border: Border.all(width: 1, color: Colors.black),
+              //                 borderRadius: BorderRadius.circular(30),
+              //                 color: color1 == true
+              //                     ? Color(0xff8C191C)
+              //                     : Colors.white),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(10),
+              //               child: Text('post'),
+              //             )),
+              //       ),
+              //       SizedBox(width: 20),
+              //       GestureDetector(
+              //         onTap: () {
+              //           setState(() {
+              //             color1 = false;
+              //             color2 = true;
+              //             type = "story";
+              //           });
+              //         },
+              //         child: Container(
+              //             decoration: BoxDecoration(
+              //                 border: Border.all(width: 1, color: Colors.black),
+              //                 borderRadius: BorderRadius.circular(30),
+              //                 color: color2 == true
+              //                     ? Color(0xff8C191C)
+              //                     : Colors.white),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(10),
+              //               child: Text('story'),
+              //             )),
+              //       )
+              //     ],
+              //   ),
+              // ),
               // ElevatedButton(
               //   child: Text("Pick images"),
               //   onPressed: loadAssets,
