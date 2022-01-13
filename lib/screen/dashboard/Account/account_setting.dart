@@ -1,5 +1,4 @@
 import 'package:archub/provider/auth.dart';
-import 'package:archub/utils/share/distributor_textformfield.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -26,7 +26,7 @@ class _StoryWidgetState extends State<StoryWidget> {
   void addStoryItems() {
     for (final story in widget.user.postFiles) {
       storyItems.add(StoryItem.pageImage(
-        url: story.toString().split("'").join(""),
+        url: story['file'].toString().split("'").join(""),
         controller: controller,
         caption: "",
         duration: Duration(
@@ -98,7 +98,7 @@ class _StoryWidgetState extends State<StoryWidget> {
               storyItems: storyItems,
               controller: controller,
               onComplete: handleCompleted,
-              onVerticalSwipeComplete: (direction) {
+              onVerticalSwipeComplete: (direction){
                 if (direction == Direction.down) {
                   Navigator.pop(context);
                 }

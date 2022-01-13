@@ -132,6 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(width: 20),
                       Expanded(
+                        flex: 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -224,22 +225,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(
                             user.fullName,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 17,
                               color: Colors.black,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            user.skills.length != 0
-                                ? user.skills[0].toString()
-                                : "",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                          // SizedBox(height: 10),
+                          // Text(
+                          //   user.skills.length != 0
+                          //       ? user.skills[0].toString()
+                          //       : "",
+                          //   style: TextStyle(
+                          //     fontSize: 12,
+                          //     color: Colors.black,
+                          //     fontWeight: FontWeight.w400,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -290,6 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         SizedBox(height: 20),
         Expanded(
+          flex: 3,
           child: Container(
             color: Colors.white70,
             child:
@@ -340,35 +343,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               SizedBox(height: 10),
-              Container(
-                height: 10,
-                color: Colors.white,
-              ),
+              if (hidden == false)
+                Container(
+                  height: 10,
+                  color: Colors.white,
+                ),
               SizedBox(height: 10),
               hidden == false
                   ? Container()
                   : Expanded(
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: SingleChildScrollView(
                           child: Column(children: [
                             SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffC4C4C4),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                    maxLines: 7,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Type here...',
-                                    )),
-                              ),
-                            ),
-                            SizedBox(height: 10),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     color: Color(0xffC4C4C4),
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(8.0),
+                            //     child: TextFormField(
+                            //         maxLines: 7,
+                            //         decoration: InputDecoration(
+                            //           border: InputBorder.none,
+                            //           hintText: 'Type here...',
+                            //         )),
+                            //   ),
+                            // ),
+                            // SizedBox(height: 10),
                             Container(
                               decoration: BoxDecoration(
                                 color: Color(0xffC4C4C4),
@@ -442,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ),
                                               SizedBox(width: 10),
                                               Text(
-                                                'Location',
+                                                'Skills',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Color(0xff28384F),
@@ -483,89 +488,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SizedBox(height: 10),
                                   Container(
                                     height: 30,
-                                    child: ListView(
+                                    child: ListView.builder(
+                                      itemCount: user.skills.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Color(0xff28384F))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: Text(
+                                              user.skills[index].toString(),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xff28384F),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       scrollDirection: Axis.horizontal,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Achitecture',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Interior Design',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Structural Design',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Structural Design',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      // children: [
+                                      //   Container(
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20),
+                                      //         border: Border.all(
+                                      //             width: 1,
+                                      //             color: Color(0xff28384F))),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(5),
+                                      //       child: Text(
+                                      //         'Achitecture',
+                                      //         style: TextStyle(
+                                      //           fontSize: 12,
+                                      //           color: Color(0xff28384F),
+                                      //           fontWeight: FontWeight.w600,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   SizedBox(width: 4),
+                                      //   Container(
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20),
+                                      //         border: Border.all(
+                                      //             width: 1,
+                                      //             color: Color(0xff28384F))),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(5),
+                                      //       child: Text(
+                                      //         'Interior Design',
+                                      //         style: TextStyle(
+                                      //           fontSize: 12,
+                                      //           color: Color(0xff28384F),
+                                      //           fontWeight: FontWeight.w600,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   SizedBox(width: 4),
+                                      //   Container(
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20),
+                                      //         border: Border.all(
+                                      //             width: 1,
+                                      //             color: Color(0xff28384F))),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(5),
+                                      //       child: Text(
+                                      //         'Structural Design',
+                                      //         style: TextStyle(
+                                      //           fontSize: 12,
+                                      //           color: Color(0xff28384F),
+                                      //           fontWeight: FontWeight.w600,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   SizedBox(width: 4),
+                                      //   Container(
+                                      //     decoration: BoxDecoration(
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20),
+                                      //         border: Border.all(
+                                      //             width: 1,
+                                      //             color: Color(0xff28384F))),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(5),
+                                      //       child: Text(
+                                      //         'Structural Design',
+                                      //         style: TextStyle(
+                                      //           fontSize: 12,
+                                      //           color: Color(0xff28384F),
+                                      //           fontWeight: FontWeight.w600,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ],
                                     ),
                                   ),
                                   SizedBox(height: 10),
@@ -575,158 +602,158 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Color(0xffC4C4C4),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/link1.png',
-                                                height: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                'Social Links',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xff28384F),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xff28384F),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(width: 5),
-                                                  Text(
-                                                    'Facebook',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color: Colors.white,
-                                                  ),
-                                                ],
-                                              ))
-                                        ]),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    height: 30,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Instagram',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Interior Design',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Linkedn',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color(0xff28384F))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              'Twitter',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff28384F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                ],
-                              ),
-                            ),
+                            // Container(
+                            //   padding: EdgeInsets.symmetric(horizontal: 10),
+                            //   decoration: BoxDecoration(
+                            //     color: Color(0xffC4C4C4),
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: Column(
+                            //     children: [
+                            //       Padding(
+                            //         padding: const EdgeInsets.all(8.0),
+                            //         child: Row(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.spaceBetween,
+                            //             children: [
+                            //               Row(
+                            //                 children: [
+                            //                   Image.asset(
+                            //                     'assets/images/link1.png',
+                            //                     height: 20,
+                            //                   ),
+                            //                   SizedBox(width: 10),
+                            //                   Text(
+                            //                     'Social Links',
+                            //                     style: TextStyle(
+                            //                       fontSize: 12,
+                            //                       color: Color(0xff28384F),
+                            //                       fontWeight: FontWeight.w600,
+                            //                     ),
+                            //                     textAlign: TextAlign.left,
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               Container(
+                            //                   padding: EdgeInsets.symmetric(
+                            //                       horizontal: 10),
+                            //                   decoration: BoxDecoration(
+                            //                     color: Color(0xff28384F),
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(10),
+                            //                   ),
+                            //                   child: Row(
+                            //                     children: [
+                            //                       SizedBox(width: 5),
+                            //                       Text(
+                            //                         'Facebook',
+                            //                         style: TextStyle(
+                            //                           fontSize: 12,
+                            //                           color: Colors.white,
+                            //                           fontWeight:
+                            //                               FontWeight.w600,
+                            //                         ),
+                            //                       ),
+                            //                       Icon(
+                            //                         Icons.arrow_drop_down,
+                            //                         color: Colors.white,
+                            //                       ),
+                            //                     ],
+                            //                   ))
+                            //             ]),
+                            //       ),
+                            //       SizedBox(height: 10),
+                            //       // Container(
+                            //       //   height: 30,
+                            //       //   child: ListView(
+                            //       //     scrollDirection: Axis.horizontal,
+                            //       //     children: [
+                            //       //       Container(
+                            //       //         decoration: BoxDecoration(
+                            //       //             borderRadius:
+                            //       //                 BorderRadius.circular(20),
+                            //       //             border: Border.all(
+                            //       //                 width: 1,
+                            //       //                 color: Color(0xff28384F))),
+                            //       //         child: Padding(
+                            //       //           padding: const EdgeInsets.all(5),
+                            //       //           child: Text(
+                            //       //             'Instagram',
+                            //       //             style: TextStyle(
+                            //       //               fontSize: 12,
+                            //       //               color: Color(0xff28384F),
+                            //       //               fontWeight: FontWeight.w600,
+                            //       //             ),
+                            //       //           ),
+                            //       //         ),
+                            //       //       ),
+                            //       //       SizedBox(width: 4),
+                            //       //       Container(
+                            //       //         decoration: BoxDecoration(
+                            //       //             borderRadius:
+                            //       //                 BorderRadius.circular(20),
+                            //       //             border: Border.all(
+                            //       //                 width: 1,
+                            //       //                 color: Color(0xff28384F))),
+                            //       //         child: Padding(
+                            //       //           padding: const EdgeInsets.all(5),
+                            //       //           child: Text(
+                            //       //             'Interior Design',
+                            //       //             style: TextStyle(
+                            //       //               fontSize: 12,
+                            //       //               color: Color(0xff28384F),
+                            //       //               fontWeight: FontWeight.w600,
+                            //       //             ),
+                            //       //           ),
+                            //       //         ),
+                            //       //       ),
+                            //       //       SizedBox(width: 4),
+                            //       //       Container(
+                            //       //         decoration: BoxDecoration(
+                            //       //             borderRadius:
+                            //       //                 BorderRadius.circular(20),
+                            //       //             border: Border.all(
+                            //       //                 width: 1,
+                            //       //                 color: Color(0xff28384F))),
+                            //       //         child: Padding(
+                            //       //           padding: const EdgeInsets.all(5),
+                            //       //           child: Text(
+                            //       //             'Linkedn',
+                            //       //             style: TextStyle(
+                            //       //               fontSize: 12,
+                            //       //               color: Color(0xff28384F),
+                            //       //               fontWeight: FontWeight.w600,
+                            //       //             ),
+                            //       //           ),
+                            //       //         ),
+                            //       //       ),
+                            //       //       SizedBox(width: 4),
+                            //       //       Container(
+                            //       //         decoration: BoxDecoration(
+                            //       //             borderRadius:
+                            //       //                 BorderRadius.circular(20),
+                            //       //             border: Border.all(
+                            //       //                 width: 1,
+                            //       //                 color: Color(0xff28384F))),
+                            //       //         child: Padding(
+                            //       //           padding: const EdgeInsets.all(5),
+                            //       //           child: Text(
+                            //       //             'Twitter',
+                            //       //             style: TextStyle(
+                            //       //               fontSize: 12,
+                            //       //               color: Color(0xff28384F),
+                            //       //               fontWeight: FontWeight.w600,
+                            //       //             ),
+                            //       //           ),
+                            //       //         ),
+                            //       //       ),
+                            //       //     ],
+                            //       //   ),
+                            //       // ),
+                            //       // SizedBox(height: 10),
+                            //     ],
+                            //   ),
+                            // ),
                           ]),
                         ),
                       ),

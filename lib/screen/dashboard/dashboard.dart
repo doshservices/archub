@@ -44,6 +44,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     if (tabController.index != 0) {
       setState(() {
         tabController.index = 0;
+        _page = 0;
       });
       Future.delayed(Duration(microseconds: 0)).then((value) {
         return true;

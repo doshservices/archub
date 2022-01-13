@@ -1,48 +1,73 @@
 import 'package:archub/model/imageData.dart';
+import 'package:archub/model/post_data.dart';
+import 'package:archub/provider/job_provider.dart';
+import 'package:archub/provider/user_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constants.dart';
 
 class ExploreWidget extends StatefulWidget {
-  const ExploreWidget({Key key}) : super(key: key);
+  final String id;
+  final String name;
+
+  const ExploreWidget({@required this.id, @required this.name, Key key})
+      : super(key: key);
 
   @override
   _ExploreWidgetState createState() => _ExploreWidgetState();
 }
 
 class _ExploreWidgetState extends State<ExploreWidget> {
+  bool _isInit = true;
+  bool status;
+  List<PostData> categorydata = [];
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      //print(widget.id);
+      await Provider.of<UserPost>(context, listen: false)
+          .getcategoryUserPort(widget.id);
+      if (mounted) {
+        setState(() {
+        _isInit = false;
+      });
+      }
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final imageList = [
-      ImageData(id: '1', image: 'assets/images/img1.png'),
-      ImageData(id: '2', image: 'assets/images/img5.png'),
-      ImageData(id: '3', image: 'assets/images/img5.png'),
-      ImageData(id: '4', image: 'assets/images/img5.png'),
-      ImageData(id: '5', image: 'assets/images/img5.png'),
-      ImageData(id: '6', image: 'assets/images/img6.png'),
-      ImageData(id: '7', image: 'assets/images/img7.png'),
-      ImageData(id: '8', image: 'assets/images/img8.png'),
-      ImageData(id: '9', image: 'assets/images/img9.png'),
-      ImageData(id: '10', image: 'assets/images/img10.png'),
-    ];
-    return StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
-      itemCount: imageList.length,
-      itemBuilder: (BuildContext context, int index) => GestureDetector(
-        onTap: () {
-          // Navigator.of(context).pushNamed(KPostDetail);
-        },
-        child: Image.asset(
-          imageList[index].image,
-          fit: BoxFit.fill,
-          // width: MediaQuery.of(context).size.width/2,
-        ),
-      ),
-      staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 2.3 : 1.5),
-      mainAxisSpacing: 5,
-      crossAxisSpacing: 0,
+    final categoryProvider = Provider.of<UserPost>(context, listen: false);
+    categorydata = categoryProvider.searchByName(widget.name);
+    // print(widget.id);
+    return Container(
+      child: _isInit
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : StaggeredGridView.countBuilder(
+              crossAxisCount: 2,
+              itemCount: categorydata.length,
+              itemBuilder: (BuildContext context, int index) => GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(KPostDetail,
+                      arguments: {"id":categorydata[index].id, "image" : 'http://res.cloudinary.com/archub/image/upload/v1637759465/sjqsgouiagijsvhqzmqn.jpg'});
+                },
+                child: Image.network(
+                  categorydata[index].postFiles[0],
+                  fit: BoxFit.fill,
+                  // width: MediaQuery.of(context).size.width/2,
+                ),
+              ),
+              staggeredTileBuilder: (int index) =>
+                  new StaggeredTile.count(1, index.isEven ? 1 : 1),
+              mainAxisSpacing: 3,
+              crossAxisSpacing: 3,
+            ),
     );
   }
 }

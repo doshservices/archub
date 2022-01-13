@@ -25,6 +25,8 @@ class _EditProfileState extends State<EditProfile> {
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
   bool _isLoading = false;
   String fullName, city, country, bio, phoneNumber;
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordController2 = TextEditingController();
   bool _isUploadingProfilePicture = false;
   List<dynamic> skill = [];
   List<dynamic> social = [];
@@ -441,7 +443,8 @@ class _EditProfileState extends State<EditProfile> {
                                 child: Form(
                                   key: _addskillFormKey,
                                   child: TextFormField(
-                                    initialValue: skillValue,
+                                    controller: _passwordController,
+                                    // initialValue: skillValue,
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,
@@ -481,9 +484,10 @@ class _EditProfileState extends State<EditProfile> {
                                     if (skillValue != '') {
                                       skill.add(skillValue);
                                     }
-
+                                    
                                     // skillValue = "";
                                   });
+                                  _passwordController.clear();
                                 },
                                 child: Text('+ Add Skill'),
                               )
@@ -544,7 +548,8 @@ class _EditProfileState extends State<EditProfile> {
                                 child: Form(
                                   key: _addsocialFormKey,
                                   child: TextFormField(
-                                    initialValue: skillValue,
+                                    controller: _passwordController2,
+                                    // initialValue: skillValue,
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,
@@ -584,9 +589,10 @@ class _EditProfileState extends State<EditProfile> {
                                     if (socialvalue != '') {
                                       social.add(socialvalue);
                                     }
-
+                                    
                                     // skillValue = "";
                                   });
+                                  _passwordController2.clear();
                                 },
                                 child: Text('+ Add Social'),
                               )

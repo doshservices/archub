@@ -20,6 +20,7 @@ import 'package:archub/screen/dashboard/job/job2.dart';
 import 'package:archub/screen/dashboard/job/widget/job_widget.dart';
 import 'package:archub/screen/dashboard/notification%20copy/notifications_screen.dart';
 import 'package:archub/screen/dashboard/post/post.dart';
+import 'package:archub/screen/dashboard/post/story.dart';
 import 'package:archub/screen/splashscreen1.dart';
 import 'package:archub/splashscreen.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
             KNotificationsScreen: (ctx) => NotificationsScreen(),
             KReportPort: (ctx) => ReportPort(),
             KResetPasswordScreens: (ctx) => ResetPasswordScreens(),
+            KStoryScreen: (ctx) => StoryScreen(),
           },
         );
       }),

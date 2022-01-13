@@ -1,5 +1,6 @@
 import 'package:archub/model/post_data.dart';
 import 'package:archub/provider/auth.dart';
+import 'package:archub/provider/job_provider.dart';
 import 'package:archub/provider/user_post.dart';
 import 'package:archub/screen/dashboard/dashboard.dart';
 import 'package:archub/screen/dashboard/home/storeView/storePage.dart';
@@ -7,6 +8,7 @@ import 'package:archub/utils/share/app_drawer.dart';
 import 'package:archub/utils/share/rounded_raisedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -31,9 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
       await Provider.of<UserPost>(context, listen: false).getAllUserPort();
       await Provider.of<UserPost>(context, listen: false).getTag();
       await Provider.of<Auth>(context, listen: false).getProfile();
-      setState(() {
+      if(mounted){
+       setState(() {
         _isInit = false;
-      });
+      }); 
+      }
     }
 
     // getalldata();
@@ -44,12 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+    // _controller = VideoPlayerController.network(
+    //     'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+    //   ..initialize().then((_) {
+    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //     setState(() {});
+    //   });
   }
 
   @override
@@ -129,12 +133,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return Dashboard(2, "Story");
-                                }),
-                              );
+                              Navigator.of(context).pushNamed(KStoryScreen);
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) {
+                              //     return Dashboard(2, "Story");
+                              //   }),
+                              // );
                             },
                             child: Stack(
                               children: [
@@ -285,33 +290,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // postData[index].sourceId['image'] ==
                                 //         true
                                 //     ? 
+                                //     CircleAvatar(
+                                //         backgroundColor:
+                                //             Colors.grey.withOpacity(0.2),
+                                //         radius: 25,
+                                //         child: SvgPicture.network(
+                                //           postData[index]
+                                //               .sourceId['image']
+                                //               .toString()
+                                //               .split("'")
+                                //               .join(""),
+                                //           fit: BoxFit.contain,
+                                //           height: 30,
+                                //           placeholderBuilder: (BuildContext
+                                //                   context) =>
+                                //               Container(
+                                //                   padding:
+                                //                       const EdgeInsets.all(2),
+                                //                   child:
+                                //                       const CircularProgressIndicator()),
+                                //         ),
+                                //       )
+                                //     : 
                                     CircleAvatar(
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.2),
                                         radius: 25,
-                                        child: SvgPicture.network(
-                                          postData[index]
-                                              .sourceId['image']
-                                              .toString()
-                                              .split("'")
-                                              .join(""),
-                                          fit: BoxFit.contain,
-                                          height: 30,
-                                          placeholderBuilder: (BuildContext
-                                                  context) =>
-                                              Container(
-                                                  padding:
-                                                      const EdgeInsets.all(2),
-                                                  child:
-                                                      const CircularProgressIndicator()),
+                                        backgroundImage: NetworkImage(
+                                          postData[index].sourceId['image'],
                                         ),
                                       ),
-                                    // : CircleAvatar(
-                                    //     radius: 25,
-                                    //     backgroundImage: NetworkImage(
-                                    //       user.pictureUrl,
-                                    //     ),
-                                    //   ),
                                 title: Text(
                                   postData[index].sourceId['fullName'],
                                   style: TextStyle(
@@ -333,7 +339,121 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                 trailing: GestureDetector(
                                   onTap: () {
-                                    showDialog(
+                                    if(user.id == postData[index].sourceId['_id']){
+                                      print("object");
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return Dialog(
+                                            child: Container(
+                                              height: 160,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.7,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15,
+                                                        vertical: 15),
+                                                child: Column(
+                                                  children: [
+                                                    Center(
+                                                        child: Text(
+                                                      "Do you like to delete this post?",
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    )),
+                                                    SizedBox(height: 30),
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                horizontal: 10,
+                                                              ),
+                                                              child: Text(
+                                                                "Cancel",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Color(
+                                                                        0xff8C191C)),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                      Container(
+                                                            height: 50,
+                                                            width: 150,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30)),
+                                                            child:
+                                                                RoundedRaisedButton(
+                                                              title:
+                                                                  'Delete post',
+                                                              titleColor:
+                                                                  Colors.white,
+                                                              buttonColor: Color(
+                                                                  0xff8C191C),
+                                                              onPress: () async{
+                                                                Navigator.of(context).pop();
+                                                                try{
+                                                                await Provider.of<JobProvider>(context, listen: false).deletePost(postData[index].id);
+                                                                Get.snackbar('Success!', 'Post successfully deleted',
+                                                                barBlur: 0,
+                                                                dismissDirection: SnackDismissDirection.VERTICAL,
+                                                                backgroundColor: Colors.green,
+                                                                overlayBlur: 0,
+                                                                animationDuration: Duration(milliseconds: 1000),
+                                                                duration: Duration(seconds: 2));
+                                                                setState(() {
+                                                                  _isInit = true;
+                                                                });
+                                                                // await Provider.of<UserPost>(context, listen: false).getAllUserStory();
+                                                                await Provider.of<UserPost>(context, listen: false).getAllUserPort();
+                                                                setState(() {
+                                                                  _isInit = false;
+                                                                });
+                                                                
+                                                              }catch(e){
+
+                                                              }  
+                                                                // Navigator.of(
+                                                                //         context)
+                                                                //     .pop();
+                                                                // Navigator.of(
+                                                                //         context)
+                                                                //     .pushNamed(
+                                                                //         KReportPort,
+                                                                //         arguments:
+                                                                //             postData[index]);
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                    }else{
+                                      showDialog(
                                         context: context,
                                         builder: (ctx) {
                                           return Dialog(
@@ -386,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
+                                                      Container(
                                                             height: 50,
                                                             width: 150,
                                                             decoration: BoxDecoration(
@@ -422,6 +542,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           );
                                         });
+                                    }
                                   },
                                   child: Icon(
                                     Icons.more_horiz,
@@ -432,19 +553,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (postData[index].postFiles.length > 0)
                                 GestureDetector(
                                     onTap: () {
-                                      if (postData[index].postFiles[0] !=
-                                          null) {
+                                      print("https://res.cloudinary.com/dasek9hic/image/upload/"+"w_1280,h_720,c_fill"+
+                                            postData[index].postFiles[0].toString().replaceAll("https://res.cloudinary.com/dasek9hic/image/upload",""));
+                                      if (postData[index].postFiles[0] != null) {
+                                            print(postData[index].sourceId['image']);
                                         Navigator.of(context).pushNamed(
                                             KPostDetail,
-                                            arguments: postData[index].id);
+                                            arguments: {"id":postData[index].id, "image" : postData[index].sourceId['image']});
                                       }
                                     },
                                     child: Container(
-                                        height: 300,
+                                        height: 400,
                                         width: double.infinity,
-                                        child: Image.network(
-                                            postData[index].postFiles[0],
-                                            fit: BoxFit.cover))),
+                                        child: Image.network("https://res.cloudinary.com/dasek9hic/image/upload/"+"w_500,h_500,c_fill"+
+                                            postData[index].postFiles[0].toString().replaceAll("https://res.cloudinary.com/dasek9hic/image/upload",""),
+                                            fit: BoxFit.fill,
+                                            // height: 350,
+                                          ))),
                               SizedBox(height: 10),
                               Row(
                                   mainAxisAlignment:

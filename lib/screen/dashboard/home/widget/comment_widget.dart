@@ -14,13 +14,13 @@ class CommentWidget extends StatelessWidget {
         itemCount: valuedata.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Image.asset(
-              'assets/images/test1.png',
+            leading: Image.network(
+              valuedata[index].userId['image'],
               height: 25,
               width: 25,
             ),
             title: Text(
-              'Sam Ben',
+              valuedata[index].userId['fullName'],
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.black,

@@ -1,10 +1,10 @@
-import 'package:archub/model/imageData.dart';
+import 'package:archub/model/categorymodel.dart';
 import 'package:archub/provider/auth.dart';
+import 'package:archub/provider/job_provider.dart';
 import 'package:archub/screen/dashboard/explore/widget/explore_widget.dart';
 import 'package:archub/utils/share/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -23,6 +23,23 @@ class _ExploreScreenState extends State<ExploreScreen>
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TabController _controller;
   int currentSelection = 0;
+  List<CategoryModel> categorydata = [];
+  String search;
+
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      await Provider.of<JobProvider>(context, listen: false).fetchCategory();
+      if(mounted){
+        setState(() {
+        _isInit = false;
+      });
+      }
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -34,6 +51,8 @@ class _ExploreScreenState extends State<ExploreScreen>
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Auth>(context).user;
+    final categoryProvider = Provider.of<JobProvider>(context, listen: false);
+    categorydata = categoryProvider.categorydata;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -77,7 +96,7 @@ class _ExploreScreenState extends State<ExploreScreen>
         ),
       ),
       body: Container(
-        height: double.infinity,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             Container(
@@ -85,15 +104,17 @@ class _ExploreScreenState extends State<ExploreScreen>
               width: double.infinity,
               color: Color(0xff8C191C),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                    padding: EdgeInsets.symmetric(horizontal: 15, ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(width: 5),
                         Expanded(
@@ -104,19 +125,24 @@ class _ExploreScreenState extends State<ExploreScreen>
                                   delegate: CustomSearchDelegate());
                             },
                             child: TextFormField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    search = value.toString();
+                                  });
+                                },
                                 decoration: InputDecoration(
                                     hintText: 'Search ',
-                                    contentPadding: EdgeInsets.all(10),
+                                    // contentPadding: EdgeInsets.symmetric(vertical: 10),
                                     hintStyle: TextStyle(
-                                        fontSize: 20, color: Color(0xff28384F)),
+                                        fontSize: 16, color: Color(0xff28384F)),
                                     border: InputBorder.none)),
                           ),
                         ),
                         IconButton(
                             onPressed: () {
-                              showSearch(
-                                  context: context,
-                                  delegate: CustomSearchDelegate());
+                              // showSearch(
+                              //     context: context,
+                              //     delegate: CustomSearchDelegate());
                             },
                             icon: Icon(Icons.search)),
                       ],
@@ -125,195 +151,40 @@ class _ExploreScreenState extends State<ExploreScreen>
                 ),
               ),
             ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: DefaultTabController(
-                  length: 5,
-                  initialIndex: 0,
-                  child: Column(
-                    children: <Widget>[
+                    length: categorydata.length,
+                    child: Column(children: [
                       Container(
-                        constraints: BoxConstraints(maxHeight: 150.0),
-                        color: Colors.white,
-                        child: Material(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 1),
-                              child: TabBar(
-                                unselectedLabelColor: Color(0xffC4C4C4),
-                                labelColor: Colors.black,
-                                indicatorColor: Colors.black,
-                                isScrollable: true,
-                                controller: _controller,
-                                labelPadding: EdgeInsets.all(0),
-                                indicatorPadding: EdgeInsets.all(0),
-                                labelStyle: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                                tabs: [
-                                  Container(
-                                    // width: MediaQuery.of(context).size.width,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 0
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Architecture",
-                                      key: Key("architecture"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 1
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Interiror \nDesign",
-                                      key: Key("design"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 2
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Strucutural \nDesign",
-                                      key: Key("strucutural"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 3
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Product \ndesigner",
-                                      key: Key("Product"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 3
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Photography",
-                                      key: Key("Photography"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 3
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Paint Art",
-                                      key: Key("Paint Art"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 3
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "Motion Graphics Design",
-                                      key: Key("Motion Graphics Design"),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      // color: currentSelection == 3
-                                      //     ? Color(0xff369F2A).withOpacity(0.2)
-                                      //     : Colors.white10,
-                                    ),
-                                    child: Tab(
-                                      text: "3D Animation",
-                                      key: Key("3D Animation"),
-                                    ),
-                                  ),
-                                ],
-                                onTap: (index) async {
-                                  Future.delayed(Duration(milliseconds: 100),
-                                      () {
-                                    setState(() {
-                                      currentSelection = index;
-                                    });
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
+                        height: 30,
+                        child: TabBar(
+                          labelColor: Colors.black,
+                          labelStyle: TextStyle(color: Colors.black, fontSize: 14),
+                          indicatorColor: Theme.of(context).primaryColor,
+                          isScrollable: true,
+                          tabs: List<Widget>.generate(categorydata.length,
+                              (int index) {
+                            return new Tab(text: categorydata[index].name);
+                          }),
                         ),
                       ),
-                    ],
-                  ),
-                )),
-            Expanded(
-              child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _controller,
-                children: [
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                  ExploreWidget(),
-                ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: List<Widget>.generate(
+                              categorydata.length, (int index) {
+                            return new ExploreWidget(
+                                id: categorydata[index].id, name: search);
+                          }),
+                        ),
+                      )
+                    ])),
               ),
             ),
-            // ExploreWidget(),
-            // Container(
-            //   height: double.infinity,
-            //   child: TabBarView(
-            //     controller: _controller,
-            //     children: [
-            //       ExploreWidget(),
-            //       ExploreWidget(),
-            //       ExploreWidget(),
-            //       ExploreWidget(),
-            //       ExploreWidget(),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),

@@ -62,6 +62,10 @@ class AboutScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(
+                          child: Text('\‘\’In the 21st Century, the world belongs to the Geek!\’\’-Unknown.'),
+                        ),
+                        SizedBox(height: 5),
                         RichText(
                             textAlign: TextAlign.justify,
                             text: TextSpan(
@@ -69,19 +73,19 @@ class AboutScreen extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                       text:
-                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Erat amet vitae eros, sed. Ut laoreet dictum mattis massa duis erat sed. Odio tellus fringilla id diam, aenean auctor orci nascetur. "),
+                                          "Interior Architecture Hub Africa Limited  (Arhchub Africa) is an organisation born out of a vision to make a marked difference in the development of the African Youth. Understanding that unemployment is a menace and a root cause of any number of social ills in sub-Saharan Africa, Archub is preparing a safe and secure environment for talent to meet with funding. We are about brining young people into the most inclusive employment space the world has to offer.With experts who cumulative have decades worth of experience in the interior architectural sphere, working alongside seasoned veterans in business development and corporate ethics, Archub offers a 360 perspective; giving creatives an environment to flourish and further improve on their diverse talents, furthering providing the less-public, but equally important side which involves translating raw talent into financial opportunities."),
                                   TextSpan(
                                       text:
-                                          "Auctor nullam risus magna in. Morbi nunc, aliquam enim ultrices vel ac nec vitae sociis. Proin scelerisque "),
-                                  TextSpan(
-                                      text:
-                                          " In nulla pellentesque integer rhoncus, senectus cras curabitur sed magna. Ipsum habitant feugiat interdum arcu. Mi et gravida fermentum justo, etiam at cras commodo varius. Natoque ornare duis sed lacinia maecenas non. Amet facilisi at egestas sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis."),
-                                  TextSpan(
-                                      text:
-                                          "Pharetra, ornare venenatis eget feugiat urna scelerisque urna. Aliquet amet, fermentum mi quis at lobortis et tellus. At sed odio lacinia sagittis quis varius.sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis. Pharetra, ornare venenatis eget feugiat urna scelerisque urna. "),
-                                  TextSpan(
-                                      text:
-                                          "Pharetra, ornare venenatis eget feugiat urna scelerisque urna. Aliquet amet, fermentum mi quis at lobortis et tellus. At sed odio lacinia sagittis quis varius.sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis. Pharetra, ornare venenatis eget feugiat urna scelerisque urna. ")
+                                          "\n\nWe are redefining the labour market and putting Africa on the tech map because we understand the unique advantage an under-developed continent holds; there’s plenty of room for innovation and growth, and there’s a teeming market right here!"),
+                                  // TextSpan(
+                                  //     text:
+                                  //         " In nulla pellentesque integer rhoncus, senectus cras curabitur sed magna. Ipsum habitant feugiat interdum arcu. Mi et gravida fermentum justo, etiam at cras commodo varius. Natoque ornare duis sed lacinia maecenas non. Amet facilisi at egestas sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis."),
+                                  // TextSpan(
+                                  //     text:
+                                  //         "Pharetra, ornare venenatis eget feugiat urna scelerisque urna. Aliquet amet, fermentum mi quis at lobortis et tellus. At sed odio lacinia sagittis quis varius.sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis. Pharetra, ornare venenatis eget feugiat urna scelerisque urna. "),
+                                  // TextSpan(
+                                  //     text:
+                                  //         "Pharetra, ornare venenatis eget feugiat urna scelerisque urna. Aliquet amet, fermentum mi quis at lobortis et tellus. At sed odio lacinia sagittis quis varius.sed faucibus mattis scelerisque. Tellus amet at vel ac et, sed sagittis. Pharetra, ornare venenatis eget feugiat urna scelerisque urna. ")
                                 ]))
                       ],
                     ),

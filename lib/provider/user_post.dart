@@ -19,6 +19,7 @@ class UserPost with ChangeNotifier {
   List<TagData> tagData = [];
   List<CommentData> commentData = [];
   PostData postDatabyId = PostData();
+  List<PostData> exploreData = [];
 
   Future<void> getAllUserPort() async {
     final prefs = await SharedPreferences.getInstance();
@@ -65,6 +66,70 @@ class UserPost with ChangeNotifier {
     }
   }
 
+  Future<void> getcategoryUserPort(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final extractdata = json.decode(prefs.getString("userData"));
+    String token = extractdata["token"];
+
+    print(extractdata);
+    try {
+      exploreData = [];
+      final response = await http.get(
+        "${config.baseUrl}/posts/tag/$id",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      if (resData["message"] == "success") {
+        List<dynamic> entities = resData["data"]["posts"];
+        entities.forEach((entity) {
+          PostData itemcategory = PostData();
+
+          itemcategory.isActive = entity['isActive'];
+          itemcategory.reactions = entity['reactions'];
+          itemcategory.id = entity['_id'];
+          // itemcategory.sourceId = entity['sourceId'];
+          itemcategory.title = entity['title'];
+          itemcategory.description = entity['description'];
+          itemcategory.attachmentName = entity['attachmentName'];
+          itemcategory.postFiles = entity['postFiles'];
+          itemcategory.attachmentSize = entity['attachmentSize'];
+          itemcategory.createdAt = entity['createdAt'];
+          itemcategory.updatedAt = entity['updatedAt'];
+          itemcategory.attachmentURI = entity['attachmentURI'];
+
+          exploreData.add(itemcategory);
+        });
+        // print(postData.length);
+      }
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  List<PostData> get items {
+    return [...exploreData];
+  }
+
+  List<PostData> searchByName(String name) {
+    if (name == null || name.isEmpty) {
+      return exploreData;
+    } else {
+      return exploreData
+          .where((value) => (value.title
+                  .toString()
+                  .toLowerCase()
+                  .contains(name.toLowerCase()))
+              )
+          .toList();
+    }
+  }
+
   Future<void> getAllUserStory() async {
     final prefs = await SharedPreferences.getInstance();
     final extractdata = json.decode(prefs.getString("userData"));
@@ -86,21 +151,23 @@ class UserPost with ChangeNotifier {
       if (resData["message"] == "success") {
         List<dynamic> entities = resData["data"]["data"];
         entities.forEach((entity) {
-          PostData itemcategory = PostData();
+          if (entity['postFiles'].length != 0) {
+            PostData itemcategory = PostData();
 
-          itemcategory.isActive = entity['isActive'];
-          itemcategory.reactions = entity['reactions'];
-          itemcategory.id = entity['_id'];
-          itemcategory.sourceId = entity['sourceId'];
-          itemcategory.title = entity['title'];
-          itemcategory.description = entity['description'];
-          itemcategory.attachmentName = entity['attachmentName'];
-          itemcategory.postFiles = entity['postFiles'];
-          itemcategory.attachmentSize = entity['attachmentSize'];
-          itemcategory.createdAt = entity['createdAt'];
-          itemcategory.updatedAt = entity['updatedAt'];
+            itemcategory.isActive = entity['isActive'];
+            itemcategory.reactions = entity['reactions'];
+            itemcategory.id = entity['_id'];
+            itemcategory.sourceId = entity['sourceId'];
+            itemcategory.title = entity['title'];
+            itemcategory.description = entity['description'];
+            itemcategory.attachmentName = entity['attachmentName'];
+            itemcategory.postFiles = entity['postFiles'];
+            itemcategory.attachmentSize = entity['attachmentSize'];
+            itemcategory.createdAt = entity['createdAt'];
+            itemcategory.updatedAt = entity['updatedAt'];
 
-          storyData.add(itemcategory);
+            storyData.add(itemcategory);
+          }
         });
         // print(postData.length);
       }
@@ -127,7 +194,7 @@ class UserPost with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
 
-      print(resData);
+      // print(resData);
       if (resData["message"] == "success") {
         List<dynamic> entities = resData["data"]["tags"];
         entities.forEach((entity) {
@@ -151,7 +218,8 @@ class UserPost with ChangeNotifier {
     final extractdata = json.decode(prefs.getString("userData"));
     String token = extractdata["token"];
 
-    print(id);
+    print("${config.baseUrl}/posts/$id");
+    
     try {
       final response = await http.get(
         "${config.baseUrl}/posts/$id",
@@ -162,7 +230,7 @@ class UserPost with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
 
-      // print("/// 777 " +resData.toString());
+      print("/// 777 " + resData.toString());
       if (resData["message"] == "success") {
         print("/// 777 " + resData.toString());
         PostData itemcategory = PostData();
@@ -173,7 +241,7 @@ class UserPost with ChangeNotifier {
             ? []
             : resData['data']['data']['reactions'];
         itemcategory.id = resData['data']['data']['_id'];
-        // itemcategory.sourceId = resData['data']['data']['sourceId'];
+        itemcategory.sourceId = resData['data']['data']['sourceId'];
         itemcategory.title = resData['data']['data']['title'];
         itemcategory.description = resData['data']['data']['description'];
         itemcategory.attachmentName = resData['data']['data']['attachmentName'];
@@ -181,8 +249,7 @@ class UserPost with ChangeNotifier {
         itemcategory.attachmentSize = resData['data']['data']['attachmentSize'];
         itemcategory.createdAt = resData['data']['data']['createdAt'];
         itemcategory.updatedAt = resData['data']['data']['updatedAt'];
-        itemcategory.numberOfComments =
-            resData['data']['data']['numberOfComments'];
+        itemcategory.numberOfComments = resData['data']['data']['numberOfComments'];
 
         postDatabyId = itemcategory;
       }
@@ -199,12 +266,13 @@ class UserPost with ChangeNotifier {
     final extractdata = json.decode(prefs.getString("userData"));
     String token = extractdata["token"];
     print(id);
+    print(token);
 
-    print("${config.baseUrl}/posts?sourceId=$id");
+    print("${config.baseUrl}/posts/user/post/$id");
     try {
       sourceIdData = [];
       final response = await http.get(
-        "${config.baseUrl}/posts?sourceId=$id",
+        "${config.baseUrl}/posts/user/post/$id",
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
@@ -214,14 +282,14 @@ class UserPost with ChangeNotifier {
 
       print("/// 777 " + resData.toString());
       if (resData["message"] == "success") {
-        List<dynamic> entities = resData["data"]["data"];
+        List<dynamic> entities = resData["data"]["posts"];
         entities.forEach((entity) {
           PostData itemcategory = PostData();
 
           itemcategory.isActive = entity['isActive'];
           itemcategory.reactions = entity['reactions'];
           itemcategory.id = entity['_id'];
-          itemcategory.sourceId = entity['sourceId'];
+          // itemcategory.sourceId = entity['sourceId'];
           itemcategory.title = entity['title'];
           itemcategory.description = entity['description'];
           itemcategory.attachmentName = entity['attachmentName'];
@@ -245,7 +313,8 @@ class UserPost with ChangeNotifier {
     final extractdata = json.decode(prefs.getString("userData"));
     String token = extractdata["token"];
 
-    print(token);
+    print(id);
+    print("${config.baseUrl}/comments/post-comments/$id");
     try {
       commentData = [];
       final response = await http.get(
@@ -265,6 +334,7 @@ class UserPost with ChangeNotifier {
 
           itemcategory.id = entity['_id'];
           itemcategory.comment = entity['comment'];
+          itemcategory.userId = entity['userId'];
 
           commentData.add(itemcategory);
         });

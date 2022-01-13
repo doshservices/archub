@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:archub/model/categorymodel.dart';
 import 'package:archub/model/http_exception.dart';
 import 'package:archub/model/job_model.dart';
 import 'package:archub/model/notification_model.dart';
@@ -12,6 +13,7 @@ import '../config.dart' as config;
 class JobProvider with ChangeNotifier {
   List<JobModel> jobmodel = [];
   List<NotificationModel> notifyList = [];
+  List<CategoryModel> categorydata = [];
 
   Future<void> getUsersJob() async {
     final prefs = await SharedPreferences.getInstance();
@@ -179,6 +181,45 @@ class JobProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchCategory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final extractdata = json.decode(prefs.getString("userData"));
+    String token = extractdata["token"];
+
+    try {
+      categorydata = [];
+      final response = await http.get(
+        "${config.baseUrl}/tags",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      // print(data);
+      if (resData["message"] != "success") {
+        throw HttpException("Error Apply job");
+      }
+      if (resData["message"] == "success") {
+        List<dynamic> entities = resData["data"]['tags'];
+        entities.forEach((entity) {
+          CategoryModel itemcategory = CategoryModel();
+
+          itemcategory.id = entity['_id'];
+          itemcategory.name = entity['name'];
+
+          categorydata.add(itemcategory);
+        });
+      }
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<void> deleteNotification(id) async {
     final prefs = await SharedPreferences.getInstance();
     final extractdata = json.decode(prefs.getString("userData"));
@@ -226,6 +267,34 @@ class JobProvider with ChangeNotifier {
           "Authorization": "Bearer $token"
         },
         body: data
+      );
+      var resData = jsonDecode(response.body);
+
+      print(resData);
+      // print(data);
+      if (resData["message"] != "success") {
+        throw HttpException("Error in deleting Notification");
+      }
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> deletePost(postId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final extractdata = json.decode(prefs.getString("userData"));
+    String token = extractdata["token"];
+    
+    try {
+      notifyList = [];
+      final response = await http.delete(
+        "${config.baseUrl}/posts/delete/$postId",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
       );
       var resData = jsonDecode(response.body);
 

@@ -86,7 +86,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               );
             });
       } catch (error) {
-        showDialog(
+        if (error.toString().contains("SocketException:")) {
+            // _showShackBar('Services currently not available, kindly try again later');
+            // setState(() {
+            //   errMsg = 'Services currently not available, kindly try again later';
+            // });
+            showDialog(
             context: context,
             builder: (ctx) {
               return AlertDialog(
@@ -94,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   "Error",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                content: Text("${error.toString()}"),
+                content: Text('Services currently not available, kindly try again later'),
                 actions: [
                   FlatButton(
                     child: Text("OK", style: TextStyle(color: Colors.white)),
@@ -106,6 +111,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               );
             });
+          } else {
+            showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                title: Text(
+                  "Error",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: Text(error.toString()),
+                actions: [
+                  FlatButton(
+                    child: Text("OK", style: TextStyle(color: Colors.white)),
+                    color: Color(0xff24414D),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+            // _showShackBar(error.toString());
+            // setState(() {
+            //   // errMsg = error.toString();
+            // });
+          }
+        
       } finally {
         setState(() {
           _isLoading = false;

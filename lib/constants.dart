@@ -31,3 +31,4 @@ const KNotificationsScreen = 'notificationsScreen';
 const KReportPort = 'reportPort';
 const KStoryPage = 'storyPage';
 const KResetPasswordScreens = 'resetPasswordScreens';
+const KStoryScreen = 'StoryScreen';

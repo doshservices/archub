@@ -1,5 +1,5 @@
 class PostData {
-  String id, description, title, attachmentName, attachmentSize, createdAt, updatedAt;
+  String id, description, title, attachmentName, attachmentSize, createdAt, updatedAt, attachmentURI;
   List<dynamic> reactions, postFiles;
   bool isActive;
   int numberOfComments;
@@ -17,6 +17,7 @@ class PostData {
     this.updatedAt,
     this.title,
     this.numberOfComments,
+    this.attachmentURI,
     this.postFiles
   });
 

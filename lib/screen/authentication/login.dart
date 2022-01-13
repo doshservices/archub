@@ -46,47 +46,52 @@ class _LoginScreenState extends State<LoginScreen> {
         connectivityResult == ConnectivityResult.wifi) {
       print('I am connected to a mobile network');
       setState(() {
-      _isLoading = true;
-      errMsg = "";
-    });
-      try {
-      await Provider.of<Auth>(context, listen: false)
-          .signIn(_userEmail, _userPassword);
-      // await Provider.of<Auth>(context, listen: false).getUserDetail();
-      setState(() {
+        _isLoading = true;
         errMsg = "";
       });
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(KDashboard, (route) => false);
-    } catch (error) {
-      if (error.toString().isNotEmpty) {
-        _showShackBar(error.toString());
+      try {
+        await Provider.of<Auth>(context, listen: false)
+            .signIn(_userEmail, _userPassword);
+        // await Provider.of<Auth>(context, listen: false).getUserDetail();
         setState(() {
-          errMsg = error.toString();
+          errMsg = "";
         });
-      } else {
-        _showShackBar('Invalid credential');
-        setState(() {
-          errMsg = "Invalid credential";
-          _isLoading = false;
-        });
-      }
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(KDashboard, (route) => false);
+      } catch (error) {
+        if (error.toString().isNotEmpty) {
+          if (error.toString().contains("SocketException:")) {
+            _showShackBar('Services currently not available, kindly try again later');
+            setState(() {
+              errMsg = 'Services currently not available, kindly try again later';
+            });
+          } else {
+            _showShackBar(error.toString());
+            setState(() {
+              errMsg = error.toString();
+            });
+          }
+        } else {
+          _showShackBar('Invalid credential');
+          setState(() {
+            errMsg = "Invalid credential";
+            _isLoading = false;
+          });
+        }
       } finally {
         setState(() {
           // errMsg = "";
           _isLoading = false;
         });
       }
-    }
-    else{
+    } else {
       print('Not connected');
       _showShackBar('Please check your Internet connection!!!');
-        setState(() {
-          errMsg = "Invalid credential";
-          _isLoading = false;
+      setState(() {
+        errMsg = "Invalid credential";
+        _isLoading = false;
       });
     }
-    
   }
 
   @override
@@ -251,8 +256,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Align(
                           alignment: Alignment.topRight,
                           child: GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).pushNamed(KForgetpassScreen);
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(KForgetpassScreen);
                             },
                             child: Text(
                               'Forget password?',

@@ -35,16 +35,16 @@ class _StoryPageState extends State<StoryPage> {
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     final stores = Provider.of<UserPost>(context, listen: false).storyData;
     return PageView(
-        controller: controller,
-        children: stores
-            .map((user) => StoryWidget(
-                  user: user,
-                  controller: controller,
-                ))
-            .toList(),
-      );
-    }
+      controller: controller,
+      children: stores
+          .map((user) => StoryWidget(
+                user: user,
+                controller: controller,
+              ))
+          .toList(),
+    );
+  }
 }

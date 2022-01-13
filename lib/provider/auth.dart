@@ -119,7 +119,7 @@ class Auth with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
 
-      print(resData);
+      // print(resData);
       if (resData["message"] != "success") {
         if (resData["status"] == "error") {
           throw HttpException(resData["message"]['message'][0]);
@@ -255,6 +255,7 @@ class Auth with ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     var data = jsonEncode({"loginId": email, "password": password});
+    // print(data);
     try {
       final response = await http.post(
         "${config.baseUrl}/users/login",

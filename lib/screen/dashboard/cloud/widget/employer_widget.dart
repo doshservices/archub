@@ -286,7 +286,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                     labelText: 'Job title',
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Country Required";
+                        return "Required";
                       }
                       return null;
                     },
@@ -298,7 +298,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                     labelText: 'Salary',
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Country Required";
+                        return "Required";
                       }
                       return null;
                     },
@@ -310,7 +310,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                     labelText: 'Job description',
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Country Required";
+                        return "Required";
                       }
                       return null;
                     },
@@ -342,7 +342,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                     labelText: 'Applications for this job would be sent to ',
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Country Required";
+                        return "Required";
                       }
                       return null;
                     },
@@ -354,7 +354,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                     labelText: 'Additional instructions',
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Country Required";
+                        return "Required";
                       }
                       return null;
                     },
@@ -534,7 +534,7 @@ class _EmployerWidgetState extends State<EmployerWidget>
                                   return AlertDialog(
                                     title: Text("Uploaded"),
                                     content: Text(
-                                        "Your Job Application has been successfully creared"),
+                                        "Your Job Application has been successfully created"),
                                     actions: [
                                       FlatButton(
                                         child: Text("OK"),

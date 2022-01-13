@@ -19,15 +19,15 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 import '../../../constants.dart';
 
-class PostScreen extends StatefulWidget {
+class StoryScreen extends StatefulWidget {
   String title;
-  PostScreen({Key key, this.title}) : super(key: key);
+  StoryScreen({Key key, this.title = "Story"}) : super(key: key);
 
   @override
-  _PostScreenState createState() => _PostScreenState();
+  _StoryScreenState createState() => _StoryScreenState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _StoryScreenState extends State<StoryScreen> {
   List<Widget> pages;
   int pageIndex = 0;
   GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey();
@@ -105,8 +105,7 @@ class _PostScreenState extends State<PostScreen> {
     final cloudinary = Cloudinary(
         "579251194598375", "mURSzkqRNR8_JHjuPJKjMjX3wK0", "dasek9hic");
     images.forEach((imageAsset) async {
-      final filePath =
-          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      final filePath = await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
       print("+++++++++++++++++ " + filePath.toString());
       File tempFile = File(filePath);
       postFiles.clear();
@@ -382,7 +381,7 @@ class _PostScreenState extends State<PostScreen> {
         await Provider.of<UserPost>(context, listen: false)
             .creatPost(postFiles, _location, tagvalue, _caption, type);
 
-        Get.snackbar('Success!', 'Post/Story Created Succesfully',
+        Get.snackbar('Success!', 'Story Created Succesfully',
             barBlur: 0,
             dismissDirection: SnackDismissDirection.VERTICAL,
             backgroundColor: Colors.green,

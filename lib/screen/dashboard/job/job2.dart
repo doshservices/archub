@@ -81,7 +81,7 @@ class _JobApplicationState extends State<JobApplication> {
       });
       try {
         await Provider.of<JobProvider>(context, listen: false).applyJob(base64Image, id);
-        Get.snackbar('Success!', 'Job applied for successfully',
+        Get.snackbar('Success!', 'Application Successful',
           barBlur: 0,
           dismissDirection: SnackDismissDirection.VERTICAL,
           backgroundColor: Colors.green,
