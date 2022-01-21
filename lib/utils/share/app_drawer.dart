@@ -84,10 +84,10 @@ class AppDrawer extends StatelessWidget {
                     user.fullName,
                     style: TextStyle(color: Color(0xff28384F)),
                   ),
-                  subtitle: Text(
-                    "You should never look down on anyone only God sits that high",
-                    style: TextStyle(color: Color(0xff28384F), fontSize: 10),
-                  ),
+                  // subtitle: Text(
+                  //   "You should never look down on anyone only God sits that high",
+                  //   style: TextStyle(color: Color(0xff28384F), fontSize: 10),
+                  // ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
